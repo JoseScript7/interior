@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · Simple Login MVC</title>
+
+  <script src="/js/color-modes.js"></script>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="theme-color" content="#712cf9">
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary" style="min-height:100vh;">
+
+  <main class="w-100 m-auto" style="max-width: 480px; padding: 1rem;">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <h1 class="h3 mb-3 fw-normal">Welcome, <%= user.name %> 👋</h1>
+        <p class="text-body-secondary mb-4">You are signed in as <strong><%= user.email %></strong></p>
+
+        <a href="/logout" class="btn btn-outline-danger w-100 py-2">Logout</a>
+      </div>
+    </div>
+    <p class="mt-3 mb-3 text-body-secondary text-center">&copy; 2025 Simple Login MVC</p>
+  </main>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
