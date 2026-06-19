@@ -1,11 +1,30 @@
 /**
  * authRoutes.js
+ *
+ * Route table:
+ *
+ *  Method | Path              | Auth?    | Role?  | Handler
+ *  -------|-------------------|----------|--------|-------------------
+ *  GET    | /                 | No       | —      | Redirect → /login
+ *  GET    | /login            | No       | —      | getLoginPage
+ *  GET    | /register         | No       | —      | getRegisterPage
+ *  POST   | /login            | No       | —      | postLogin (form)
+ *  POST   | /register         | No       | —      | postRegister (form)
+ *  POST   | /api/register     | No       | —      | register (REST)
+ *  POST   | /api/login        | No       | —      | login (REST)
+ *  GET    | /dashboard        | ✅ JWT   | —      | getDashboard
+ *  GET    | /api/profile      | ✅ JWT   | —      | getProfile
+ *  GET    | /api/admin/users  | ✅ JWT   | admin  | getAllUsers
+ *  GET    | /logout           | No       | —      | logout
  */
 
 const express = require('express');
 const router = express.Router();
 
 const authController = require('../controllers/authController');
+const { authenticateToken, authorizeRole } = require('../middleware/authMiddleware');
+
+// ── Public routes ───────────────────────────────────────────────────────
 
 // Redirect root to /login
 router.get('/', (req, res) => res.redirect('/login'));
@@ -14,10 +33,33 @@ router.get('/', (req, res) => res.redirect('/login'));
 router.get('/login', authController.getLoginPage);
 router.post('/login', authController.postLogin);
 
-// Protected dashboard page
-router.get('/dashboard', authController.getDashboard);
+// Register page (GET = show form, POST = process form)
+router.get('/register', authController.getRegisterPage);
+router.post('/register', authController.postRegister);
 
-// Logout
+// ── REST API (public) ───────────────────────────────────────────────────
+
+router.post('/api/register', authController.register);
+router.post('/api/login', authController.login);
+
+// ── Protected routes ────────────────────────────────────────────────────
+
+// Dashboard (browser – requires JWT)
+router.get('/dashboard', authenticateToken, authController.getDashboard);
+
+// Profile (API – requires JWT)
+router.get('/api/profile', authenticateToken, authController.getProfile);
+
+// Admin-only: list all users
+router.get(
+  '/api/admin/users',
+  authenticateToken,
+  authorizeRole('admin'),
+  authController.getAllUsers
+);
+
+// ── Logout ──────────────────────────────────────────────────────────────
+
 router.get('/logout', authController.logout);
 
 module.exports = router;

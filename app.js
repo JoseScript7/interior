@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
-const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
+// Initialise the database (creates table + seeds admin on first run)
+require('./database');
 
 const authRoutes = require('./routes/authRoutes');
 
@@ -12,18 +15,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 // ----- Middleware -----
 app.use(express.urlencoded({ extended: true })); // parse form data
-app.use(express.json());
+app.use(express.json());                         // parse JSON bodies
+app.use(cookieParser());                         // parse cookies (JWT)
 app.use(express.static(path.join(__dirname, 'public'))); // serve Bootstrap/CSS/JS/images
-
-// Simple session (used to keep the user "logged in" - no JWT, no hashing)
-app.use(
-  session({
-    secret: 'simple-login-secret-key', // change this in a real project
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 } // 1 hour
-  })
-);
 
 // ----- Routes -----
 app.use('/', authRoutes);
@@ -31,6 +25,16 @@ app.use('/', authRoutes);
 // ----- 404 fallback -----
 app.use((req, res) => {
   res.status(404).send('Page not found');
+});
+
+// ----- Global async error handler -----
+app.use((err, req, res, _next) => {
+  console.error('Unhandled error:', err);
+
+  if (req.accepts('html')) {
+    return res.status(500).send('Internal server error');
+  }
+  res.status(500).json({ error: 'Internal server error.' });
 });
 
 // ----- Start server -----
