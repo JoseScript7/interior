@@ -58,6 +58,17 @@ router.get(
   authController.getAllUsers
 );
 
+// ── Auth check (for React SPA) ──────────────────────────────────────────
+
+// Check if the user is currently authenticated (cookie-based)
+router.get('/api/auth/check', authenticateToken, authController.getProfile);
+
+// API logout (clears cookie, returns JSON)
+router.post('/api/logout', (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Logged out successfully.' });
+});
+
 // ── Logout ──────────────────────────────────────────────────────────────
 
 router.get('/logout', authController.logout);

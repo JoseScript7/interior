@@ -1,11 +1,16 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
-// Initialise the database (creates table + seeds admin on first run)
+// Initialise the database (creates tables + seeds admin on first run)
 require('./database');
 
 const authRoutes = require('./routes/authRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');
+const stockRoutes = require('./routes/stockRoutes');
 
 const app = express();
 
@@ -14,6 +19,10 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // ----- Middleware -----
+app.use(cors({
+  origin: 'http://localhost:5173',  // Vite dev server
+  credentials: true                 // allow cookies cross-origin
+}));
 app.use(express.urlencoded({ extended: true })); // parse form data
 app.use(express.json());                         // parse JSON bodies
 app.use(cookieParser());                         // parse cookies (JWT)
@@ -21,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public'))); // serve Bootstrap/CSS/
 
 // ----- Routes -----
 app.use('/', authRoutes);
+app.use('/', feedbackRoutes);
+app.use('/', stockRoutes);
 
 // ----- 404 fallback -----
 app.use((req, res) => {

@@ -1,81 +1,110 @@
-# Full-Stack Login MVC + REST API (Node + Express + SQLite + JWT)
+# StockPulse — Full-Stack Login MVC + React SPA
 
-A secure, MVC-architected login project built with Node.js, Express, and EJS, styled with Bootstrap. 
-
-This project supports both **traditional browser form flows** (server-side rendering) and **REST API flows** simultaneously. It uses SQLite for persistence, bcrypt for password hashing, and JWTs for authentication.
+A full-stack web application featuring a **React + TypeScript** SPA frontend and a **Node.js + Express + SQLite** backend. Built with JWT authentication, role-based access control, real-time stock charts, and a feedback system.
 
 ## Features
 
-- **Dual-Mode Auth**: Supports both cookie-based JWT authentication (for browsers) and `Authorization: Bearer` headers (for REST API/Mobile clients).
-- **SQLite Persistence**: Uses `better-sqlite3` for fast, synchronous database access without requiring a separate database server.
-- **Security**: Passwords hashed with `bcryptjs`.
-- **Role-Based Access Control (RBAC)**: Includes middleware to protect routes based on user roles (`admin` vs `user`).
-- **REST API Endpoints**: Fully functional JSON API for registering, logging in, fetching profiles, and admin tasks.
-- **MVC Architecture**: Clean separation of Models, Views, and Controllers.
+- **React SPA Frontend** with TypeScript (strict mode, no `any`)
+- **JWT Auth** — httpOnly cookie-based, no localStorage (XSS-safe)
+- **Role-Based Access Control (RBAC)** — admin vs user routes/content
+- **Stock Charts** — Bar + Line charts via Chart.js, data from Finnhub API
+- **Data Fetching** — TanStack Query with loading/error states, caching, auto-refresh
+- **Form Validation** — React Hook Form + Zod with inline error messages
+- **State Management** — Zustand for auth state
+- **Warm Studio Theme** — Cream/amber palette, Inter font, rounded corners
+- **SQLite Persistence** — Users + feedback stored in `database.sqlite`
+- **Dual-Mode API** — EJS browser forms + REST JSON API (backwards-compatible)
 
-## Folder structure
+## Folder Structure
 
 ```
-project/
- ├── database.js     → SQLite database initialization and seeding
- ├── middleware/     → Custom Express middleware
- │    └── authMiddleware.js (JWT validation & RBAC)
- ├── routes/         → The doorbell (decides who answers)
- │    └── authRoutes.js
- ├── controllers/    → The person who answers (makes decisions)
- │    └── authController.js
- ├── models/         → The filing cabinet (talks to "DB")
- │    └── userModel.js
- ├── views/          → The printed letter you hand back (HTML/EJS)
- │    ├── login.ejs
- │    ├── register.ejs
- │    └── dashboard.ejs
- ├── public/         → Static files (Bootstrap CSS/JS, images)
- ├── app.js          → The front door (Express entry point)
+NodeLogin/
+ ├── client/                → React + TypeScript SPA (Vite)
+ │    ├── src/
+ │    │   ├── api/          → API helper functions (auth, stock, feedback)
+ │    │   ├── components/   → Layout, ProtectedRoute, RoleGate
+ │    │   ├── hooks/        → TanStack Query hooks (useStockData, useFeedback)
+ │    │   ├── pages/        → LoginPage, RegisterPage, DashboardPage, FeedbackPage, AdminPage
+ │    │   ├── schemas/      → Zod validation schemas
+ │    │   ├── store/        → Zustand auth store
+ │    │   ├── types/        → Shared TypeScript interfaces
+ │    │   ├── App.tsx       → React Router setup
+ │    │   ├── main.tsx      → Entry point + QueryClientProvider
+ │    │   └── index.css     → Warm Studio theme
+ │    └── vite.config.ts    → Dev proxy to Express backend
+ ├── controllers/           → Express route handlers
+ ├── middleware/             → JWT auth + RBAC middleware
+ ├── models/                → SQLite query functions
+ ├── routes/                → Express route definitions
+ ├── views/                 → EJS templates (legacy browser flow)
+ ├── database.js            → SQLite initialization + seeding
+ ├── app.js                 → Express entry point
+ ├── .env                   → API keys (not committed)
  └── package.json
 ```
 
-## How it works
-
-1. **`database.js`**: Initializes an SQLite file (`database.sqlite`) and creates the `users` table. Automatically seeds an admin account on the first run.
-2. **`models/userModel.js`**: Handles SQLite database queries (`INSERT`, `SELECT`) and uses `bcrypt` to compare password hashes.
-3. **`middleware/authMiddleware.js`**: Extracts JWTs from either cookies or HTTP headers. Verifies the token and attaches user data to the request. Also contains the `authorizeRole` middleware for RBAC.
-4. **`controllers/authController.js`**: Fully async handlers that process logic, sign JWTs, and determine whether to render an EJS view or return raw JSON based on the route.
-5. **`routes/authRoutes.js`**: Maps URLs to controller functions. Combines public routes, protected routes, REST APIs, and RBAC admin routes.
-6. **`app.js`**: Wires up the Express server, `cookie-parser`, JSON parsers, EJS engine, and a global async error handler.
-
-## Setup & run
+## Quick Start
 
 ```bash
-# 1. Install dependencies
+# 1. Install backend dependencies
+cd NodeLogin
 npm install
 
-# 2. Start the server
+# 2. Install frontend dependencies
+cd client
+npm install
+cd ..
+
+# 3. Add your Finnhub API key to .env
+# FINNHUB_API_KEY=your_key_here
+
+# 4. Start backend (Terminal 1)
 npm start
 
-# (optional) run with auto-reload during development
+# 5. Start frontend (Terminal 2)
+cd client
 npm run dev
 ```
 
-Then open: **http://localhost:3000**
+Then open **http://localhost:5173**
 
 ## Default Admin Credentials
 
-On the first run, the database automatically seeds an admin user. You can use this to test the system:
+| Email | Password | Role |
+|-------|----------|------|
+| admin@example.com | Admin@123 | admin |
 
-| Email               | Password    | Role  |
-|---------------------|-------------|-------|
-| admin@example.com   | Admin@123   | admin |
+## Technology Stack
 
-## REST API Documentation
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Frontend Framework | React 19 + TypeScript | Component-based UI |
+| Build Tool | Vite | Fast dev server + HMR |
+| Routing | React Router v7 | SPA page navigation |
+| State Management | Zustand | Global auth state |
+| Data Fetching | TanStack Query | Caching, loading/error states |
+| Charts | Chart.js + react-chartjs-2 | Bar and Line charts |
+| Form Validation | React Hook Form + Zod | Type-safe forms with inline errors |
+| CSS | Vanilla CSS (Warm Studio) | Custom theme, no framework |
+| Backend | Express.js | REST API server |
+| Database | SQLite (better-sqlite3) | Persistent storage |
+| Auth | JWT (jsonwebtoken) | httpOnly cookie tokens |
+| Password Security | bcryptjs | Hash + compare |
+| Stock Data | Finnhub API | Real-time stock quotes + candles |
 
-You can test these using tools like Postman:
+## REST API Endpoints
 
-| Method | Endpoint | Auth Required | Role | Description |
-|--------|----------|---------------|------|-------------|
-| POST | `/api/register` | No | - | Register a new user. Body: `{ "name", "email", "password" }` |
-| POST | `/api/login` | No | - | Login to receive a JWT. Body: `{ "email", "password" }` |
-| GET | `/api/profile` | Yes (JWT) | - | Returns the currently authenticated user's profile |
-| GET | `/api/admin/users`| Yes (JWT) | Admin | Returns a list of all users in the system |
-
-*Note: For protected API routes, include the JWT in the `Authorization` header as `Bearer <token>`.*
+| Method | Endpoint | Auth | Role | Description |
+|--------|----------|------|------|-------------|
+| POST | `/api/register` | No | — | Register new user |
+| POST | `/api/login` | No | — | Login, receive JWT cookie |
+| GET | `/api/auth/check` | JWT | — | Verify current auth status |
+| POST | `/api/logout` | No | — | Clear JWT cookie |
+| GET | `/api/profile` | JWT | — | Get current user profile |
+| GET | `/api/stocks/quote` | JWT | — | Stock quote (Finnhub proxy) |
+| GET | `/api/stocks/candles` | JWT | — | Stock candle data (Finnhub proxy) |
+| GET | `/api/stocks/market-news` | JWT | — | Market news (Finnhub proxy) |
+| POST | `/api/feedback` | JWT | — | Submit feedback |
+| GET | `/api/feedback` | JWT | — | Get own feedback |
+| GET | `/api/admin/users` | JWT | admin | List all users |
+| GET | `/api/admin/feedback` | JWT | admin | List all feedback |

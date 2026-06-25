@@ -32,6 +32,19 @@ db.exec(`
   )
 `);
 
+// ── Create feedback table ───────────────────────────────────────────────
+db.exec(`
+  CREATE TABLE IF NOT EXISTS feedback (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id    INTEGER NOT NULL,
+    title      TEXT    NOT NULL,
+    message    TEXT    NOT NULL,
+    category   TEXT    NOT NULL CHECK(category IN ('bug', 'feature', 'general')),
+    created_at TEXT    DEFAULT (datetime('now')),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  )
+`);
+
 // ── Seed default admin ──────────────────────────────────────────────────
 const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@example.com');
 
