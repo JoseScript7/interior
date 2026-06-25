@@ -29,78 +29,77 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-header">
-          <span className="auth-logo"></span>
-          <h1>Create account</h1>
-          <p className="auth-subtitle">Get started with StockPulse</p>
-        </div>
-
-        {serverError && (
-          <div className="alert alert-error" role="alert">
-            {serverError}
-          </div>
-        )}
-
+    <div className="auth-wrapper">
+      <main className="form-signup w-100 m-auto text-center">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="form-group">
-            <label htmlFor="name">Full name</label>
+          <div className="mb-4">
+            <span className="text-primary" style={{ fontSize: '3rem' }}>◉</span>
+            <h1 className="h3 mb-3 fw-normal">Create an account</h1>
+          </div>
+
+          {serverError && (
+            <div className="alert alert-danger" role="alert">
+              {serverError}
+            </div>
+          )}
+
+          <div className="form-floating">
             <input
-              id="name"
               type="text"
-              placeholder="Thiru"
-              className={errors.name ? 'input input-error' : 'input'}
+              className={`form-control top-field ${errors.name ? 'is-invalid' : ''}`}
+              id="floatingName"
+              placeholder="John Doe"
               {...register('name')}
             />
-            {errors.name && <span className="field-error">{errors.name.message}</span>}
+            <label htmlFor="floatingName">Full name</label>
+            {errors.name && <div className="invalid-feedback text-start mb-2">{errors.name.message}</div>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          <div className="form-floating">
             <input
-              id="email"
               type="email"
-              placeholder="you@example.com"
-              className={errors.email ? 'input input-error' : 'input'}
+              className={`form-control middle-field ${errors.email ? 'is-invalid' : ''}`}
+              id="floatingEmail"
+              placeholder="name@example.com"
               {...register('email')}
             />
-            {errors.email && <span className="field-error">{errors.email.message}</span>}
+            <label htmlFor="floatingEmail">Email address</label>
+            {errors.email && <div className="invalid-feedback text-start mb-2">{errors.email.message}</div>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div className="form-floating">
             <input
-              id="password"
               type="password"
-              placeholder="Min. 6 characters"
-              className={errors.password ? 'input input-error' : 'input'}
+              className={`form-control middle-field ${errors.password ? 'is-invalid' : ''}`}
+              id="floatingPassword"
+              placeholder="Password"
               {...register('password')}
             />
-            {errors.password && <span className="field-error">{errors.password.message}</span>}
+            <label htmlFor="floatingPassword">Password</label>
+            {errors.password && <div className="invalid-feedback text-start mb-2">{errors.password.message}</div>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm password</label>
+          <div className="form-floating">
             <input
-              id="confirmPassword"
               type="password"
-              placeholder="Repeat your password"
-              className={errors.confirmPassword ? 'input input-error' : 'input'}
+              className={`form-control bottom-field ${errors.confirmPassword ? 'is-invalid' : ''}`}
+              id="floatingConfirmPassword"
+              placeholder="Confirm Password"
               {...register('confirmPassword')}
             />
-            {errors.confirmPassword && <span className="field-error">{errors.confirmPassword.message}</span>}
+            <label htmlFor="floatingConfirmPassword">Confirm Password</label>
+            {errors.confirmPassword && <div className="invalid-feedback text-start">{errors.confirmPassword.message}</div>}
           </div>
 
-          <button type="submit" className="btn btn-primary btn-full" disabled={isSubmitting}>
-            {isSubmitting ? 'Creating account…' : 'Create account'}
+          <button className="btn btn-primary w-100 py-2 mt-3" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Creating account…' : 'Register'}
           </button>
+          
+          <p className="mt-4 mb-3 text-body-secondary">
+            Already have an account? <Link to="/login" className="text-decoration-none">Sign in</Link>
+          </p>
         </form>
-
-        <p className="auth-footer">
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
-      </div>
+      </main>
     </div>
   );
 }

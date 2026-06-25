@@ -29,54 +29,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-header">
-          <span className="auth-logo">◉</span>
-          <h1>Welcome back</h1>
-          <p className="auth-subtitle">Sign in to your account</p>
-        </div>
-
-        {serverError && (
-          <div className="alert alert-error" role="alert">
-            {serverError}
-          </div>
-        )}
-
+    <div className="auth-wrapper">
+      <main className="form-signin w-100 m-auto text-center">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          <div className="mb-4">
+            <span className="text-primary" style={{ fontSize: '3rem' }}>◉</span>
+            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+          </div>
+
+          {serverError && (
+            <div className="alert alert-danger" role="alert">
+              {serverError}
+            </div>
+          )}
+
+          <div className="form-floating">
             <input
-              id="email"
               type="email"
-              placeholder="you@gmail.com"
-              className={errors.email ? 'input input-error' : 'input'}
+              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+              id="floatingInput"
+              placeholder="name@example.com"
               {...register('email')}
             />
-            {errors.email && <span className="field-error">{errors.email.message}</span>}
+            <label htmlFor="floatingInput">Email address</label>
+            {errors.email && <div className="invalid-feedback text-start">{errors.email.message}</div>}
           </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          
+          <div className="form-floating">
             <input
-              id="password"
               type="password"
-              placeholder="••••••••"
-              className={errors.password ? 'input input-error' : 'input'}
+              className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+              id="floatingPassword"
+              placeholder="Password"
               {...register('password')}
             />
-            {errors.password && <span className="field-error">{errors.password.message}</span>}
+            <label htmlFor="floatingPassword">Password</label>
+            {errors.password && <div className="invalid-feedback text-start">{errors.password.message}</div>}
           </div>
 
-          <button type="submit" className="btn btn-primary btn-full" disabled={isSubmitting}>
+          <button className="btn btn-primary w-100 py-2 mt-3" type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Signing in…' : 'Sign in'}
           </button>
+          
+          <p className="mt-4 mb-3 text-body-secondary">
+            Don't have an account? <Link to="/register" className="text-decoration-none">Register</Link>
+          </p>
         </form>
-
-        <p className="auth-footer">
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
-      </div>
+      </main>
     </div>
   );
 }

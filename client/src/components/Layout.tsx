@@ -11,43 +11,51 @@ export default function Layout() {
   };
 
   return (
-    <div className="app-layout">
+    <>
       {isLoggedIn && (
-        <nav className="navbar" role="navigation" aria-label="Main navigation">
-          <div className="nav-brand">
-            <span className="nav-logo">◉</span>
-            <span className="nav-title">StockPulse</span>
-          </div>
-
-          <div className="nav-links">
-            <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+        <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h5 className="my-0 me-md-auto fw-normal text-primary">◉ StockPulse</h5>
+          
+          <nav className="my-2 my-md-0 me-md-3">
+            <NavLink 
+              to="/dashboard" 
+              className={({ isActive }) => isActive ? 'p-2 text-primary fw-bold text-decoration-none' : 'p-2 text-dark text-decoration-none'}
+            >
               Dashboard
             </NavLink>
-            <NavLink to="/feedback" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+            <NavLink 
+              to="/feedback" 
+              className={({ isActive }) => isActive ? 'p-2 text-primary fw-bold text-decoration-none' : 'p-2 text-dark text-decoration-none'}
+            >
               Feedback
             </NavLink>
             {user?.role === 'admin' && (
-              <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+              <NavLink 
+                to="/admin" 
+                className={({ isActive }) => isActive ? 'p-2 text-primary fw-bold text-decoration-none' : 'p-2 text-dark text-decoration-none'}
+              >
                 Admin
               </NavLink>
             )}
-          </div>
-
-          <div className="nav-user">
-            <span className="nav-user-name">{user?.name}</span>
-            <span className={`role-badge ${user?.role === 'admin' ? 'role-admin' : 'role-user'}`}>
-              {user?.role}
+          </nav>
+          
+          <div className="d-flex align-items-center gap-3">
+            <span className="text-muted small">
+              {user?.name}
+              <span className={`badge ms-2 ${user?.role === 'admin' ? 'bg-warning text-dark' : 'bg-secondary'}`}>
+                {user?.role}
+              </span>
             </span>
-            <button onClick={handleLogout} className="btn btn-ghost" type="button">
+            <button onClick={handleLogout} className="btn btn-outline-danger btn-sm" type="button">
               Logout
             </button>
           </div>
-        </nav>
+        </div>
       )}
 
-      <main className={isLoggedIn ? 'main-content' : 'main-content-full'}>
+      <main>
         <Outlet />
       </main>
-    </div>
+    </>
   );
 }
