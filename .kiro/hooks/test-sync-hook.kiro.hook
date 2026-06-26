@@ -6,8 +6,8 @@
   "when": {
     "type": "fileEdited",
     "patterns": [
-      "**/designai/frontend/components/**/*.tsx",
-      "**/designai/frontend/components/**/*.ts"
+      "frontend/components/**/*.tsx",
+      "frontend/components/**/*.ts"
     ]
   },
   "then": {

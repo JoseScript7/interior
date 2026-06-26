@@ -6,7 +6,7 @@
   "when": {
     "type": "fileEdited",
     "patterns": [
-      "**/designai/backend/api/**/*.py"
+      "backend/api/**/*.py"
     ]
   },
   "then": {

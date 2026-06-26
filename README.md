@@ -1,110 +1,188 @@
-# StockPulse — Full-Stack Login MVC + React SPA
+<div align="center">
 
-A full-stack web application featuring a **React + TypeScript** SPA frontend and a **Node.js + Express + SQLite** backend. Built with JWT authentication, role-based access control, real-time stock charts, and a feedback system.
+# Seeley <sub>(சீலே)</sub>
+
+**/see-lay/** • *noun* • Tamil 
+
+### AI-Assisted Interior Designing Platform
+
+Turn design inspiration into personalized, real-time customizable 3D room layouts
+and immersive walkthroughs — visualize, adjust, and shop furniture before you
+commit to real-world investment.
+
+<sub>Built by **CyberPhantoms** for the AWS Student Builder Hackathon</sub>
+
+</div>
+
+> *"Deliberate well before venturing into an action; to say 'we will think about it'
+> after starting is a flaw."* — guiding principle of the team.
+
+---
+
+## Overview
+
+Seeley is a cloud-native, AI-driven platform that transforms a single room photo
+into actionable interior design. Upload a picture of your space and the platform
+reads its dimensions, style, lighting, and palette, proposes three design
+directions, matches real purchasable furniture, and drops it into an interactive
+3D editor with AR preview and a photorealistic render pipeline.
+
+It is built on **AWS managed services** and **open-source vision/3D models**, and
+runs in two modes: a **local mode** that exercises real AI with zero cloud
+provisioning, and a **full serverless deployment** via AWS CDK.
 
 ## Features
 
-- **React SPA Frontend** with TypeScript (strict mode, no `any`)
-- **JWT Auth** — httpOnly cookie-based, no localStorage (XSS-safe)
-- **Role-Based Access Control (RBAC)** — admin vs user routes/content
-- **Stock Charts** — Bar + Line charts via Chart.js, data from Finnhub API
-- **Data Fetching** — TanStack Query with loading/error states, caching, auto-refresh
-- **Form Validation** — React Hook Form + Zod with inline error messages
-- **State Management** — Zustand for auth state
-- **Warm Studio Theme** — Cream/amber palette, Inter font, rounded corners
-- **SQLite Persistence** — Users + feedback stored in `database.sqlite`
-- **Dual-Mode API** — EJS browser forms + REST JSON API (backwards-compatible)
+- **AI room analysis** — multimodal Amazon Bedrock (Claude) reads a photo and returns structured dimensions, detected objects, style, lighting quality, and a color palette.
+- **Three design directions** — closest-to-current, budget-optimized, and a creative reinterpretation, each with materials and cost estimates.
+- **3D room editor** — real-time Three.js (React Three Fiber) scene with place / move / scale / rotate / recolor, backed by a live furniture catalog.
+- **Furniture matching** — vector search over a furniture catalog with keyword re-ranking, linking each piece to a purchasable product.
+- **Text-to-3D** — natural-language requests are structured by Bedrock and rendered as catalog objects (GPU 3D endpoint optional).
+- **AR preview** — view furniture at true scale in your room via the `model-viewer` web component.
+- **Photorealistic render** — depth-conditioned ControlNet pipeline triggered asynchronously through SQS.
 
-## Folder Structure
+## Architecture
 
-```
-NodeLogin/
- ├── client/                → React + TypeScript SPA (Vite)
- │    ├── src/
- │    │   ├── api/          → API helper functions (auth, stock, feedback)
- │    │   ├── components/   → Layout, ProtectedRoute, RoleGate
- │    │   ├── hooks/        → TanStack Query hooks (useStockData, useFeedback)
- │    │   ├── pages/        → LoginPage, RegisterPage, DashboardPage, FeedbackPage, AdminPage
- │    │   ├── schemas/      → Zod validation schemas
- │    │   ├── store/        → Zustand auth store
- │    │   ├── types/        → Shared TypeScript interfaces
- │    │   ├── App.tsx       → React Router setup
- │    │   ├── main.tsx      → Entry point + QueryClientProvider
- │    │   └── index.css     → Warm Studio theme
- │    └── vite.config.ts    → Dev proxy to Express backend
- ├── controllers/           → Express route handlers
- ├── middleware/             → JWT auth + RBAC middleware
- ├── models/                → SQLite query functions
- ├── routes/                → Express route definitions
- ├── views/                 → EJS templates (legacy browser flow)
- ├── database.js            → SQLite initialization + seeding
- ├── app.js                 → Express entry point
- ├── .env                   → API keys (not committed)
- └── package.json
+```mermaid
+flowchart LR
+    U[User / Browser] --> FE[Next.js Frontend]
+    FE -->|REST / WebSocket| AGW[API Gateway]
+    AGW --> API[FastAPI on Lambda]
+    API --> BR[Amazon Bedrock<br/>Claude + Titan]
+    API --> S3[(S3<br/>uploads / renders / assets)]
+    API --> DDB[(DynamoDB<br/>projects + scenes)]
+    API --> OS[(OpenSearch<br/>furniture vectors)]
+    API --> SQS[SQS queues]
+    SQS --> SF[Step Functions pipeline]
+    SF --> Lum[Lambda stages:<br/>analyze / match / render]
+    Lum --> SM[SageMaker<br/>ControlNet · MiDaS · 3D]
 ```
 
-## Quick Start
+The cloud stack is provisioned as **six AWS CDK stacks**: `network`, `data`,
+`auth`, `ai`, `api`, and `pipeline`.
+
+## Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | Next.js 14 (App Router), TypeScript, React Three Fiber + drei, `@google/model-viewer` (AR), Zustand, Tailwind CSS, AWS Amplify Auth |
+| **Backend** | Python 3.11, FastAPI, Mangum (Lambda adapter), AWS Lambda Powertools |
+| **AI / ML** | Amazon Bedrock (Claude Sonnet, Titan image embeddings), Amazon Rekognition, SageMaker (ControlNet, MiDaS, TripoSR / Hunyuan3D) |
+| **Data** | Amazon S3, DynamoDB (single-table), OpenSearch Serverless (vector search), ElastiCache |
+| **Orchestration** | API Gateway (REST + WebSocket), SQS, Step Functions, EventBridge |
+| **Infrastructure** | AWS CDK v2 (TypeScript), CloudFront, Cognito |
+
+## Repository Structure
+
+```
+.
+├── frontend/         Next.js 14 app (UI, 3D editor, AR)
+├── backend/          FastAPI service (Lambda handlers)
+├── lambda/           Pipeline-stage Lambda functions
+├── infrastructure/   AWS CDK v2 (6 stacks)
+├── shared/           JSON Schema contracts + generated types
+├── seed/             Seed data (furniture catalog, products)
+├── docs/             API reference & documentation
+├── aidlc-docs/       AI-DLC design artifacts
+└── .kiro/            Specs, steering, and hooks
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- Python 3.11+
+- AWS account with credentials configured (`aws configure`) and Amazon Bedrock model access enabled in `us-east-1`
+
+### 1. Configure environment
 
 ```bash
-# 1. Install backend dependencies
-cd NodeLogin
-npm install
-
-# 2. Install frontend dependencies
-cd client
-npm install
-cd ..
-
-# 3. Add your Finnhub API key to .env
-# FINNHUB_API_KEY=your_key_here
-
-# 4. Start backend (Terminal 1)
-npm start
-
-# 5. Start frontend (Terminal 2)
-cd client
-npm run dev
+cp .env.example .env   # then fill in the values
 ```
 
-Then open **http://localhost:5173**
+### 2. Run the backend
 
-## Default Admin Credentials
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload        # http://localhost:8000  (docs at /docs)
+```
 
-| Email | Password | Role |
-|-------|----------|------|
-| admin@example.com | Admin@123 | admin |
+### 3. Run the frontend
 
-## Technology Stack
+```bash
+cd frontend
+npm install
+npm run dev                      # http://localhost:3000
+```
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Frontend Framework | React 19 + TypeScript | Component-based UI |
-| Build Tool | Vite | Fast dev server + HMR |
-| Routing | React Router v7 | SPA page navigation |
-| State Management | Zustand | Global auth state |
-| Data Fetching | TanStack Query | Caching, loading/error states |
-| Charts | Chart.js + react-chartjs-2 | Bar and Line charts |
-| Form Validation | React Hook Form + Zod | Type-safe forms with inline errors |
-| CSS | Vanilla CSS (Warm Studio) | Custom theme, no framework |
-| Backend | Express.js | REST API server |
-| Database | SQLite (better-sqlite3) | Persistent storage |
-| Auth | JWT (jsonwebtoken) | httpOnly cookie tokens |
-| Password Security | bcryptjs | Hash + compare |
-| Stock Data | Finnhub API | Real-time stock quotes + candles |
+The frontend works fully offline against a local furniture catalog, so the 3D
+editor is usable without any backend running.
 
-## REST API Endpoints
+### Full AWS deployment
 
-| Method | Endpoint | Auth | Role | Description |
-|--------|----------|------|------|-------------|
-| POST | `/api/register` | No | — | Register new user |
-| POST | `/api/login` | No | — | Login, receive JWT cookie |
-| GET | `/api/auth/check` | JWT | — | Verify current auth status |
-| POST | `/api/logout` | No | — | Clear JWT cookie |
-| GET | `/api/profile` | JWT | — | Get current user profile |
-| GET | `/api/stocks/quote` | JWT | — | Stock quote (Finnhub proxy) |
-| GET | `/api/stocks/candles` | JWT | — | Stock candle data (Finnhub proxy) |
-| GET | `/api/stocks/market-news` | JWT | — | Market news (Finnhub proxy) |
-| POST | `/api/feedback` | JWT | — | Submit feedback |
-| GET | `/api/feedback` | JWT | — | Get own feedback |
-| GET | `/api/admin/users` | JWT | admin | List all users |
-| GET | `/api/admin/feedback` | JWT | admin | List all feedback |
+```bash
+cd infrastructure
+npm install
+npx cdk deploy --all             # or use ./deploy.sh / deploy.ps1
+```
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and provide values. **Never commit `.env`.**
+
+| Variable | Purpose |
+|---|---|
+| `AWS_REGION`, `AWS_ACCOUNT_ID` | Target account and region |
+| `BEDROCK_MODEL_ID` | Bedrock inference profile (e.g. `us.anthropic.claude-sonnet-4-6`) |
+| `UPLOADS_BUCKET`, `RENDERS_BUCKET`, `ASSETS_BUCKET` | S3 buckets |
+| `PROJECTS_TABLE` | DynamoDB projects table |
+| `OPENSEARCH_ENDPOINT` | Furniture vector index |
+| `COGNITO_USER_POOL_ID`, `COGNITO_CLIENT_ID` | Auth |
+| `ANALYSIS_QUEUE_URL`, `RENDER_QUEUE_URL` | SQS pipeline queues |
+| `SAGEMAKER_*_ENDPOINT` | Vision/3D model endpoints |
+| `NEXT_PUBLIC_API_URL` | Backend URL used by the frontend |
+
+## API Reference
+
+Base URL: `http://localhost:8000` · Interactive docs at `/docs`.
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/health` | Service health check |
+| `POST` | `/upload/` | Create project, get S3 presigned upload URL |
+| `POST` | `/upload/complete` | Mark upload done, trigger analysis pipeline |
+| `GET` | `/recommend/` | AI analysis + 3 design recommendations |
+| `GET` | `/project/`, `/project/{id}` | List / fetch projects |
+| `DELETE` | `/project/{id}` | Delete a project |
+| `GET` | `/assets/` | Furniture vector search |
+| `POST` / `GET` | `/scene/` | Save / load the canonical scene descriptor |
+| `POST` / `GET` | `/render/`, `/render/{job_id}` | Trigger render, poll job status |
+| `POST` | `/local/analyze` | **Local mode**: photo → real Bedrock analysis |
+| `POST` | `/local/generate3d` | **Local mode**: text → structured 3D object |
+
+## Run Modes
+
+- **Local mode** (`/local/*`) — real Amazon Bedrock analysis with filesystem
+  persistence and zero cloud provisioning. Ideal for development and demos.
+- **Full cloud** — the complete serverless pipeline deployed via CDK
+  (API Gateway, Lambda, DynamoDB, S3, OpenSearch, SQS, Step Functions, SageMaker).
+
+## Team — CyberPhantoms
+
+- Ranen Joseph Solomon
+- Jaiyantan
+- Thirumurugan
+- Kabelan
+
+## Acknowledgements
+
+Open-source foundations integrated by this project:
+[ControlNet](https://github.com/lllyasviel/ControlNet) ·
+[MiDaS](https://github.com/isl-org/MiDaS) ·
+[TripoSR](https://github.com/VAST-AI-Research/TripoSR).
+
+## License
+
+Released under the [MIT License](LICENSE) © 2026 CyberPhantoms.
