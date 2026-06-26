@@ -1,0 +1,110 @@
+{
+  "_meta": { "dialect": "json-schema-draft-07", "id": "scene-descriptor" },
+  "title": "SceneDescriptor",
+  "description": "Single canonical scene descriptor. Pipeline writes it; Zustand reads/mutates it; save serializes back to DynamoDB.",
+  "type": "object",
+  "required": ["projectId", "userId", "room", "items", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "projectId": { "type": "string" },
+    "userId": { "type": "string" },
+    "room": { "$ref": "#/definitions/Room" },
+    "items": { "type": "array", "items": { "$ref": "#/definitions/FurnitureItem" } },
+    "theme": { "$ref": "#/definitions/Theme" },
+    "metadata": { "$ref": "#/definitions/Metadata" }
+  },
+  "definitions": {
+    "Point2D": {
+      "type": "object",
+      "required": ["x", "y"],
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" } }
+    },
+    "Point3D": {
+      "type": "object",
+      "required": ["x", "y", "z"],
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "z": { "type": "number" } }
+    },
+    "Room": {
+      "type": "object",
+      "required": ["width", "length", "height"],
+      "properties": {
+        "width": { "type": "number" },
+        "length": { "type": "number" },
+        "height": { "type": "number" },
+        "roomType": { "type": "string", "enum": ["living_room", "bedroom", "kitchen", "bathroom", "office", "dining_room", "other"] },
+        "walls": { "type": "array", "items": { "$ref": "#/definitions/Wall" } },
+        "windows": { "type": "array", "items": { "$ref": "#/definitions/Opening" } },
+        "doors": { "type": "array", "items": { "$ref": "#/definitions/Opening" } }
+      }
+    },
+    "Wall": {
+      "type": "object",
+      "required": ["id", "start", "end", "height"],
+      "properties": {
+        "id": { "type": "string" },
+        "start": { "$ref": "#/definitions/Point2D" },
+        "end": { "$ref": "#/definitions/Point2D" },
+        "height": { "type": "number" },
+        "material": { "type": "string" },
+        "color": { "type": "string" }
+      }
+    },
+    "Opening": {
+      "type": "object",
+      "required": ["id", "wallId", "position", "width", "height"],
+      "properties": {
+        "id": { "type": "string" },
+        "wallId": { "type": "string" },
+        "position": { "$ref": "#/definitions/Point3D" },
+        "width": { "type": "number" },
+        "height": { "type": "number" }
+      }
+    },
+    "FurnitureItem": {
+      "type": "object",
+      "required": ["id", "name", "position", "rotation", "scale", "modelUrl"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["sofa", "chair", "table", "bed", "storage", "lighting", "decor", "rug", "other"] },
+        "position": { "$ref": "#/definitions/Point3D" },
+        "rotation": { "$ref": "#/definitions/Point3D" },
+        "scale": { "$ref": "#/definitions/Point3D" },
+        "modelUrl": { "type": "string" },
+        "thumbnailUrl": { "type": "string" },
+        "dimensions": {
+          "type": "object",
+          "properties": { "width": { "type": "number" }, "depth": { "type": "number" }, "height": { "type": "number" } }
+        },
+        "material": { "type": "string" },
+        "color": { "type": "string" },
+        "productId": { "type": "string" },
+        "productUrl": { "type": "string" },
+        "price": { "type": "number" },
+        "isPlaceholder": { "type": "boolean", "default": false }
+      }
+    },
+    "Theme": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "colorPalette": { "type": "array", "items": { "type": "string" } },
+        "materials": { "type": "array", "items": { "type": "string" } },
+        "lighting": { "type": "string" }
+      }
+    },
+    "Metadata": {
+      "type": "object",
+      "required": ["createdAt", "updatedAt", "version"],
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "version": { "type": "integer", "minimum": 1 },
+        "status": { "type": "string", "enum": ["draft", "processing", "ready", "rendered"] },
+        "originalImageKey": { "type": "string" },
+        "renderImageKey": { "type": "string" }
+      }
+    }
+  }
+}

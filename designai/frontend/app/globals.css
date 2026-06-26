@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 247 249 251;        /* cool light grey, HomeByMe-like */
+  --surface: 255 255 255;
+  --ink: 28 32 38;
+  --muted: 124 134 146;
+  --accent: 33 150 243;     /* clean blue */
+  --accent-600: 25 118 210;
+  --accent-soft: 227 242 253;
+  --highlight: 245 197 24;  /* the yellow toolbar line */
+  --line: 230 234 239;
+}
+
+* { border-color: rgb(var(--line)); }
+html { scroll-behavior: smooth; }
+body {
+  color: rgb(var(--ink));
+  background: rgb(var(--bg));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  .container-app { @apply mx-auto w-full max-w-6xl px-6; }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[rgb(var(--accent))] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[rgb(var(--accent-600))] hover:shadow-md active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[rgb(var(--line))] bg-white px-6 py-3 text-sm font-semibold text-[rgb(var(--ink))] transition-all hover:bg-slate-50 active:scale-[0.98];
+  }
+  .card {
+    @apply rounded-2xl border border-[rgb(var(--line))] bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04),0_12px_32px_-16px_rgba(16,24,40,0.12)];
+  }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.16em] text-[rgb(var(--accent))]; }
+
+  /* Editor chrome (Sweet Home / HomeByMe style) */
+  .editor-toolbar {
+    @apply flex items-center gap-1 rounded-xl border border-[rgb(var(--line))] bg-white/95 px-2 py-1.5 shadow-sm backdrop-blur;
+  }
+  .tool-btn {
+    @apply grid h-9 w-9 place-items-center rounded-lg text-[rgb(var(--muted))] transition-colors hover:bg-[rgb(var(--accent-soft))] hover:text-[rgb(var(--accent-600))];
+  }
+  .seg {
+    @apply inline-flex items-center rounded-full border border-[rgb(var(--line))] bg-white p-1 shadow-sm;
+  }
+  .seg-item {
+    @apply rounded-full px-4 py-1.5 text-sm font-medium text-[rgb(var(--muted))] transition-colors;
+  }
+  .seg-item-active {
+    @apply bg-[rgb(var(--accent))] text-white shadow;
+  }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: rgba(124,134,146,0.35); border-radius: 4px; }

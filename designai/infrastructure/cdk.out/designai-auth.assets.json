@@ -1,0 +1,21 @@
+{
+  "version": "54.0.0",
+  "files": {
+    "47ab4467d7d9ae297a8eb3d995d4800baba9b3d9d078ee26270a46a4e48864a4": {
+      "displayName": "designai-auth Template",
+      "source": {
+        "path": "designai-auth.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "583925556452-us-east-1-25a33d01": {
+          "bucketName": "cdk-hnb659fds-assets-583925556452-us-east-1",
+          "objectKey": "47ab4467d7d9ae297a8eb3d995d4800baba9b3d9d078ee26270a46a4e48864a4.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::583925556452:role/cdk-hnb659fds-file-publishing-role-583925556452-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

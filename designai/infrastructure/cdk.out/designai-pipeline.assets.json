@@ -1,0 +1,36 @@
+{
+  "version": "54.0.0",
+  "files": {
+    "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd": {
+      "displayName": "ValidateLambda/Code",
+      "source": {
+        "path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "583925556452-us-east-1-1e3101f7": {
+          "bucketName": "cdk-hnb659fds-assets-583925556452-us-east-1",
+          "objectKey": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::583925556452:role/cdk-hnb659fds-file-publishing-role-583925556452-us-east-1"
+        }
+      }
+    },
+    "95b8bb04f2a36a82bd9abb4f277ede26dbf9168531d617cbbd3d0df6f1340055": {
+      "displayName": "designai-pipeline Template",
+      "source": {
+        "path": "designai-pipeline.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "583925556452-us-east-1-e1391516": {
+          "bucketName": "cdk-hnb659fds-assets-583925556452-us-east-1",
+          "objectKey": "95b8bb04f2a36a82bd9abb4f277ede26dbf9168531d617cbbd3d0df6f1340055.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::583925556452:role/cdk-hnb659fds-file-publishing-role-583925556452-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

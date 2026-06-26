@@ -1,0 +1,13 @@
+{
+  "name": "Auto-Update API Docs",
+  "version": "1.0.0",
+  "description": "On save of a backend API file, refresh docs/api-reference.md to match route definitions.",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["backend/api/**/*.py"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Read the FastAPI route definitions in the saved file. Update docs/api-reference.md to reflect any new endpoints, changed request schemas, or changed response schemas. Preserve the existing markdown structure. Add the current date next to any updated section."
+  }
+}

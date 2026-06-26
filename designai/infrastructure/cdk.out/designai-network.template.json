@@ -1,0 +1,700 @@
+{
+ "Resources": {
+  "DesignAiVpcB2D911E5": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/Resource"
+   }
+  },
+  "DesignAiVpcPublicSubnet1Subnet9A8E68C1": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "dummy1a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet1/Subnet"
+   }
+  },
+  "DesignAiVpcPublicSubnet1RouteTableBA9786AB": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet1/RouteTable"
+   }
+  },
+  "DesignAiVpcPublicSubnet1RouteTableAssociationF2B11193": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPublicSubnet1RouteTableBA9786AB"
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcPublicSubnet1Subnet9A8E68C1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "DesignAiVpcPublicSubnet1DefaultRoute72BE3D71": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "DesignAiVpcIGW61126D37"
+    },
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPublicSubnet1RouteTableBA9786AB"
+    }
+   },
+   "DependsOn": [
+    "DesignAiVpcVPCGW92A19207"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "DesignAiVpcPublicSubnet1EIPFA2B12DF": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet1/EIP"
+   }
+  },
+  "DesignAiVpcPublicSubnet1NATGateway4A578B6D": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "DesignAiVpcPublicSubnet1EIPFA2B12DF",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcPublicSubnet1Subnet9A8E68C1"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "DesignAiVpcPublicSubnet1DefaultRoute72BE3D71",
+    "DesignAiVpcPublicSubnet1RouteTableAssociationF2B11193"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet1/NATGateway"
+   }
+  },
+  "DesignAiVpcPublicSubnet2SubnetFE3730EA": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "dummy1b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet2/Subnet"
+   }
+  },
+  "DesignAiVpcPublicSubnet2RouteTable76773195": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet2/RouteTable"
+   }
+  },
+  "DesignAiVpcPublicSubnet2RouteTableAssociation4336A704": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPublicSubnet2RouteTable76773195"
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcPublicSubnet2SubnetFE3730EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "DesignAiVpcPublicSubnet2DefaultRoute1F920EA0": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "DesignAiVpcIGW61126D37"
+    },
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPublicSubnet2RouteTable76773195"
+    }
+   },
+   "DependsOn": [
+    "DesignAiVpcVPCGW92A19207"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "DesignAiVpcPrivateSubnet1Subnet8F1D274C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "dummy1a",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet1/Subnet"
+   }
+  },
+  "DesignAiVpcPrivateSubnet1RouteTable28E235F8": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet1/RouteTable"
+   }
+  },
+  "DesignAiVpcPrivateSubnet1RouteTableAssociation71E23976": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPrivateSubnet1RouteTable28E235F8"
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcPrivateSubnet1Subnet8F1D274C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "DesignAiVpcPrivateSubnet1DefaultRoute3BD57C34": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "DesignAiVpcPublicSubnet1NATGateway4A578B6D"
+    },
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPrivateSubnet1RouteTable28E235F8"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "DesignAiVpcPrivateSubnet2Subnet3F163E5C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "dummy1b",
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet2/Subnet"
+   }
+  },
+  "DesignAiVpcPrivateSubnet2RouteTable053CED3C": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet2/RouteTable"
+   }
+  },
+  "DesignAiVpcPrivateSubnet2RouteTableAssociation132612B7": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPrivateSubnet2RouteTable053CED3C"
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcPrivateSubnet2Subnet3F163E5C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "DesignAiVpcPrivateSubnet2DefaultRoute00D936CB": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "DesignAiVpcPublicSubnet1NATGateway4A578B6D"
+    },
+    "RouteTableId": {
+     "Ref": "DesignAiVpcPrivateSubnet2RouteTable053CED3C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "DesignAiVpcIsolatedSubnet1Subnet7F5EFD5B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "dummy1a",
+    "CidrBlock": "10.0.4.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/IsolatedSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IsolatedSubnet1/Subnet"
+   }
+  },
+  "DesignAiVpcIsolatedSubnet1RouteTable44244220": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/IsolatedSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IsolatedSubnet1/RouteTable"
+   }
+  },
+  "DesignAiVpcIsolatedSubnet1RouteTableAssociation6CB7863C": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "DesignAiVpcIsolatedSubnet1RouteTable44244220"
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcIsolatedSubnet1Subnet7F5EFD5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IsolatedSubnet1/RouteTableAssociation"
+   }
+  },
+  "DesignAiVpcIsolatedSubnet2Subnet3048560F": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "dummy1b",
+    "CidrBlock": "10.0.5.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/IsolatedSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IsolatedSubnet2/Subnet"
+   }
+  },
+  "DesignAiVpcIsolatedSubnet2RouteTable0F5E6E7C": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-network/DesignAiVpc/IsolatedSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IsolatedSubnet2/RouteTable"
+   }
+  },
+  "DesignAiVpcIsolatedSubnet2RouteTableAssociation48F3BE08": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "DesignAiVpcIsolatedSubnet2RouteTable0F5E6E7C"
+    },
+    "SubnetId": {
+     "Ref": "DesignAiVpcIsolatedSubnet2Subnet3048560F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IsolatedSubnet2/RouteTableAssociation"
+   }
+  },
+  "DesignAiVpcIGW61126D37": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/IGW"
+   }
+  },
+  "DesignAiVpcVPCGW92A19207": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "DesignAiVpcIGW61126D37"
+    },
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/VPCGW"
+   }
+  },
+  "DesignAiVpcS3EndpointA4AED3A5": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "DesignAiVpcPrivateSubnet1RouteTable28E235F8"
+     },
+     {
+      "Ref": "DesignAiVpcPrivateSubnet2RouteTable053CED3C"
+     },
+     {
+      "Ref": "DesignAiVpcPublicSubnet1RouteTableBA9786AB"
+     },
+     {
+      "Ref": "DesignAiVpcPublicSubnet2RouteTable76773195"
+     },
+     {
+      "Ref": "DesignAiVpcIsolatedSubnet1RouteTable44244220"
+     },
+     {
+      "Ref": "DesignAiVpcIsolatedSubnet2RouteTable0F5E6E7C"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".s3"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-vpc"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/S3Endpoint/Resource"
+   }
+  },
+  "DesignAiVpcDynamoDbEndpointF71715CE": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "DesignAiVpcPrivateSubnet1RouteTable28E235F8"
+     },
+     {
+      "Ref": "DesignAiVpcPrivateSubnet2RouteTable053CED3C"
+     },
+     {
+      "Ref": "DesignAiVpcPublicSubnet1RouteTableBA9786AB"
+     },
+     {
+      "Ref": "DesignAiVpcPublicSubnet2RouteTable76773195"
+     },
+     {
+      "Ref": "DesignAiVpcIsolatedSubnet1RouteTable44244220"
+     },
+     {
+      "Ref": "DesignAiVpcIsolatedSubnet2RouteTable0F5E6E7C"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".dynamodb"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "designai-vpc"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "DesignAiVpcB2D911E5"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/DesignAiVpc/DynamoDbEndpoint/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/0WOwQrCQAxEv8X7dtU96FlExIuWKr1KmkaM1mzpZi0i/rtUqz3NzGNIxlk3m9jJCNqQYHlNKi7sc6+AVwNtOBI6+8xrNMuT5OnSpLGoGPexENKODS7zUekARUUDH9giBI8Myl7+5c6sNmknW9A1KLXwMGnDd1AaDm9EqRH6F75L+rRQBTzfSNT0JK9xJWXtWbSv/uLLZBR8bPDzeRe1jvoy4kuylzC+O2enczsdXQJz0kRRvpHNvvoGxKfrUyYBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-network/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "VpcId": {
+   "Value": {
+    "Ref": "DesignAiVpcB2D911E5"
+   },
+   "Export": {
+    "Name": "designai-vpc-id"
+   }
+  },
+  "ExportsOutputRefDesignAiVpcIsolatedSubnet1Subnet7F5EFD5B7DE45617": {
+   "Value": {
+    "Ref": "DesignAiVpcIsolatedSubnet1Subnet7F5EFD5B"
+   },
+   "Export": {
+    "Name": "designai-network:ExportsOutputRefDesignAiVpcIsolatedSubnet1Subnet7F5EFD5B7DE45617"
+   }
+  },
+  "ExportsOutputRefDesignAiVpcIsolatedSubnet2Subnet3048560FB8C7AE3C": {
+   "Value": {
+    "Ref": "DesignAiVpcIsolatedSubnet2Subnet3048560F"
+   },
+   "Export": {
+    "Name": "designai-network:ExportsOutputRefDesignAiVpcIsolatedSubnet2Subnet3048560FB8C7AE3C"
+   }
+  },
+  "ExportsOutputFnGetAttDesignAiVpcB2D911E5CidrBlock4DAF8D3C": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DesignAiVpcB2D911E5",
+     "CidrBlock"
+    ]
+   },
+   "Export": {
+    "Name": "designai-network:ExportsOutputFnGetAttDesignAiVpcB2D911E5CidrBlock4DAF8D3C"
+   }
+  },
+  "ExportsOutputRefDesignAiVpcB2D911E52F9D16BC": {
+   "Value": {
+    "Ref": "DesignAiVpcB2D911E5"
+   },
+   "Export": {
+    "Name": "designai-network:ExportsOutputRefDesignAiVpcB2D911E52F9D16BC"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

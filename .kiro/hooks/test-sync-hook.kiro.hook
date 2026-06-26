@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Auto-Sync Tests",
+  "description": "When any .tsx or .ts file in frontend/components/ is saved, check if a corresponding test file exists in __tests__/. If it does, update the test to reflect any new props, functions, or exports. If no test file exists, create one with basic render tests. Use React Testing Library.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/designai/frontend/components/**/*.tsx",
+      "**/designai/frontend/components/**/*.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check if a corresponding test file exists in __tests__/ for this component. If it does, update it to reflect any new props, functions, or exports. If not, create one with basic render tests using React Testing Library. Do not change existing passing test logic."
+  }
+}

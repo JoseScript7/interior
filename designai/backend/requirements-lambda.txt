@@ -1,0 +1,7 @@
+# Runtime deps for the API Lambda ONLY (excludes test/CLI tools like
+# uvicorn, opensearch-py, websocket-client, jsonschema, requests).
+fastapi==0.115.0
+mangum==0.18.0
+pydantic==2.9.0
+aws-lambda-powertools==2.43.0
+python-multipart==0.0.9

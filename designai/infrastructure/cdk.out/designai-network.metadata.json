@@ -1,0 +1,582 @@
+{
+  "/designai-network": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:error",
+      "data": "You are not authorized to perform this operation. User: arn:aws:sts::583925556452:assumed-role/WSParticipantRole/Participant is not authorized to perform: ec2:DescribeAvailabilityZones because no identity-based policy allows the ec2:DescribeAvailabilityZones action",
+      "trace": [
+        "Annotations.addMessage (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:3441)",
+        "Annotations.addError (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:2673)",
+        "Annotations._addTrackableError (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:2772)",
+        "Function.getValue (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\core\\lib\\context-provider.js:2:1886)",
+        "NetworkStack.get availabilityZones [as availabilityZones] (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\core\\lib\\stack.js:1:16361)",
+        "new Vpc2 (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:19312)",
+        "new Vpc2 (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "Object.<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "Module._compile (node:internal/modules/cjs/loader:1730:14)",
+        "Module.m._compile (C:\\Users\\admin\\AppData\\Roaming\\npm\\node_modules\\ts-node\\src\\index.ts:1618:23)",
+        "node:internal/modules/cjs/loader:1895:10",
+        "Object.require.extensions.<computed> [as .ts] (C:\\Users\\admin\\AppData\\Roaming\\npm\\node_modules\\ts-node\\src\\index.ts:1621:12)",
+        "Module.load (node:internal/modules/cjs/loader:1465:32)",
+        "Function._load (node:internal/modules/cjs/loader:1282:12)",
+        "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+        "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+        "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+        "phase4 (C:\\Users\\admin\\AppData\\Roaming\\npm\\node_modules\\ts-node\\src\\bin.ts:649:14)",
+        "bootstrap (C:\\Users\\admin\\AppData\\Roaming\\npm\\node_modules\\ts-node\\src\\bin.ts:95:10)",
+        "main (C:\\Users\\admin\\AppData\\Roaming\\npm\\node_modules\\ts-node\\src\\bin.ts:55:10)",
+        "Object.<anonymous> (C:\\Users\\admin\\AppData\\Roaming\\npm\\node_modules\\ts-node\\src\\bin.ts:800:3)",
+        "Module._compile (node:internal/modules/cjs/loader:1730:14)",
+        "Object.<anonymous> (node:internal/modules/cjs/loader:1895:10)",
+        "Module.load (node:internal/modules/cjs/loader:1465:32)",
+        "Function._load (node:internal/modules/cjs/loader:1282:12)",
+        "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+        "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+        "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)",
+        "node:internal/main/run_main_module:36:49"
+      ]
+    },
+    {
+      "type": "aws:cdk:error-code",
+      "data": "ContextProviderError"
+    }
+  ],
+  "/designai-network/VpcId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VpcId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:49:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/designai-network/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcB2D911E5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IGW": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIGW61126D37"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/VPCGW": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcVPCGW92A19207"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/Exports/Output{\"Ref\":\"DesignAiVpcIsolatedSubnet1Subnet7F5EFD5B\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefDesignAiVpcIsolatedSubnet1Subnet7F5EFD5B7DE45617"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/Exports/Output{\"Ref\":\"DesignAiVpcIsolatedSubnet2Subnet3048560F\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefDesignAiVpcIsolatedSubnet2Subnet3048560FB8C7AE3C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/Exports/Output{\"Fn::GetAtt\":[\"DesignAiVpcB2D911E5\",\"CidrBlock\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttDesignAiVpcB2D911E5CidrBlock4DAF8D3C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/Exports/Output{\"Ref\":\"DesignAiVpcB2D911E5\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefDesignAiVpcB2D911E52F9D16BC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet1/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet1Subnet9A8E68C1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet1/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet1RouteTableBA9786AB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet1/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet1RouteTableAssociationF2B11193"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet1/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet1DefaultRoute72BE3D71"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:208 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet1/EIP": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet1EIPFA2B12DF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet1/NATGateway": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet1NATGateway4A578B6D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet2/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet2SubnetFE3730EA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet2/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet2RouteTable76773195"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet2/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet2RouteTableAssociation4336A704"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PublicSubnet2/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPublicSubnet2DefaultRoute1F920EA0"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:208 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet1/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet1Subnet8F1D274C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet1/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet1RouteTable28E235F8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet1/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet1RouteTableAssociation71E23976"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet1/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet1DefaultRoute3BD57C34"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet2/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet2Subnet3F163E5C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet2/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet2RouteTable053CED3C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet2/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet2RouteTableAssociation132612B7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/PrivateSubnet2/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcPrivateSubnet2DefaultRoute00D936CB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:16:16)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IsolatedSubnet1/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIsolatedSubnet1Subnet7F5EFD5B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:272 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IsolatedSubnet1/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIsolatedSubnet1RouteTable44244220"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:272 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IsolatedSubnet1/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIsolatedSubnet1RouteTableAssociation6CB7863C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:272 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IsolatedSubnet2/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIsolatedSubnet2Subnet3048560F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:272 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IsolatedSubnet2/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIsolatedSubnet2RouteTable0F5E6E7C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:272 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/IsolatedSubnet2/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcIsolatedSubnet2RouteTableAssociation48F3BE08"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:272 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/S3Endpoint/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcS3EndpointA4AED3A5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addGatewayEndpoint in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:40:14)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-network/DesignAiVpc/DynamoDbEndpoint/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DesignAiVpcDynamoDbEndpointF71715CE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addGatewayEndpoint in aws-cdk-lib...",
+        "new NetworkStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\network-stack.ts:44:14)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:21:22)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

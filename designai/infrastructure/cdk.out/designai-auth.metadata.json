@@ -1,0 +1,137 @@
+{
+  "/designai-auth": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:34:19)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-auth/UserPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\auth-stack.ts:65:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:34:19)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-auth/UserPoolClientId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolClientId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\auth-stack.ts:70:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:34:19)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-auth/UserPoolArn": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolArn"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\auth-stack.ts:75:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:34:19)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-auth/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/designai-auth/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/designai-auth/UserPool/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPool6BA7E5F2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in aws-cdk-lib...",
+        "new AuthStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\auth-stack.ts:17:21)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:34:19)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-auth/UserPoolClient/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolClient2F5918F7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPoolClient2 in aws-cdk-lib...",
+        "new AuthStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\auth-stack.ts:38:27)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:34:19)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-auth/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-auth/Exports/Output{\"Fn::GetAtt\":[\"UserPool6BA7E5F2\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttUserPool6BA7E5F2Arn686ACC00"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ]
+}

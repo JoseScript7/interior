@@ -1,0 +1,78 @@
+{
+  "_meta": { "dialect": "json-schema-draft-07", "id": "websocket-messages" },
+  "title": "DesignAI WebSocket Message Contracts",
+  "description": "Real-time messages over the single WebSocket channel (doubles for render progress AND async 3D model swap-in per Q5).",
+  "oneOf": [
+    { "$ref": "#/definitions/PipelineProgress" },
+    { "$ref": "#/definitions/RenderComplete" },
+    { "$ref": "#/definitions/RenderTimeout" },
+    { "$ref": "#/definitions/AssetReady" },
+    { "$ref": "#/definitions/AssistantAction" },
+    { "$ref": "#/definitions/PipelineComplete" }
+  ],
+  "definitions": {
+    "PipelineProgress": {
+      "type": "object",
+      "required": ["type", "projectId", "stage", "percent"],
+      "properties": {
+        "type": { "const": "pipeline_progress" },
+        "projectId": { "type": "string" },
+        "stage": { "type": "string" },
+        "percent": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "message": { "type": "string" }
+      }
+    },
+    "PipelineComplete": {
+      "type": "object",
+      "required": ["type", "projectId", "status"],
+      "properties": {
+        "type": { "const": "pipeline_complete" },
+        "projectId": { "type": "string" },
+        "status": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    },
+    "RenderComplete": {
+      "type": "object",
+      "required": ["type", "projectId", "imageUrl"],
+      "properties": {
+        "type": { "const": "render_complete" },
+        "projectId": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "beforeUrl": { "type": "string" },
+        "themePreviewUrl": { "type": "string" },
+        "themePreviewFallback": { "type": "boolean" }
+      }
+    },
+    "RenderTimeout": {
+      "type": "object",
+      "required": ["type", "projectId", "reason"],
+      "properties": {
+        "type": { "const": "render_timeout" },
+        "projectId": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    },
+    "AssetReady": {
+      "type": "object",
+      "required": ["type", "projectId", "itemId", "glbUrl"],
+      "properties": {
+        "type": { "const": "asset_ready" },
+        "projectId": { "type": "string" },
+        "itemId": { "type": "string" },
+        "glbUrl": { "type": "string" }
+      }
+    },
+    "AssistantAction": {
+      "type": "object",
+      "required": ["type", "action"],
+      "properties": {
+        "type": { "const": "assistant_action" },
+        "action": { "type": "string", "enum": ["swap_item", "add_item", "remove_item", "move_item", "set_theme"] },
+        "itemId": { "type": "string" },
+        "replacementId": { "type": "string" },
+        "params": { "type": "object" }
+      }
+    }
+  }
+}

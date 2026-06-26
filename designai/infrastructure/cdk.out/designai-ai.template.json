@@ -1,0 +1,417 @@
+{
+ "Resources": {
+  "SageMakerExecutionRole7843F3B8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sagemaker.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSageMakerFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonS3ReadOnlyAccess"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "designai-sagemaker-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/SageMakerExecutionRole/Resource"
+   }
+  },
+  "ControlNetModel": {
+   "Type": "AWS::SageMaker::Model",
+   "Properties": {
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "SageMakerExecutionRole7843F3B8",
+      "Arn"
+     ]
+    },
+    "ModelName": "designai-controlnet",
+    "PrimaryContainer": {
+     "Environment": {
+      "SAGEMAKER_PROGRAM": "inference.py",
+      "SAGEMAKER_SUBMIT_DIRECTORY": "/opt/ml/model/code"
+     },
+     "Image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-inference:2.0.1-gpu-py310-cu118-ubuntu20.04-sagemaker",
+     "ModelDataUrl": "s3://designai-models-583925556452/controlnet/model.tar.gz"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/ControlNetModel"
+   }
+  },
+  "ControlNetEndpointConfig": {
+   "Type": "AWS::SageMaker::EndpointConfig",
+   "Properties": {
+    "EndpointConfigName": "designai-controlnet-config",
+    "ProductionVariants": [
+     {
+      "InitialInstanceCount": 1,
+      "InitialVariantWeight": 1,
+      "InstanceType": "ml.g4dn.xlarge",
+      "ModelName": "designai-controlnet",
+      "VariantName": "AllTraffic"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ControlNetModel"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/ControlNetEndpointConfig"
+   }
+  },
+  "ControlNetEndpoint": {
+   "Type": "AWS::SageMaker::Endpoint",
+   "Properties": {
+    "EndpointConfigName": "designai-controlnet-config",
+    "EndpointName": "designai-controlnet-endpoint"
+   },
+   "DependsOn": [
+    "ControlNetEndpointConfig"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/ControlNetEndpoint"
+   }
+  },
+  "MidasModel": {
+   "Type": "AWS::SageMaker::Model",
+   "Properties": {
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "SageMakerExecutionRole7843F3B8",
+      "Arn"
+     ]
+    },
+    "ModelName": "designai-midas",
+    "PrimaryContainer": {
+     "Environment": {
+      "SAGEMAKER_PROGRAM": "inference.py",
+      "SAGEMAKER_SUBMIT_DIRECTORY": "/opt/ml/model/code"
+     },
+     "Image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-inference:2.0.1-cpu-py310-ubuntu20.04-sagemaker",
+     "ModelDataUrl": "s3://designai-models-583925556452/midas/model.tar.gz"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/MidasModel"
+   }
+  },
+  "MidasEndpointConfig": {
+   "Type": "AWS::SageMaker::EndpointConfig",
+   "Properties": {
+    "EndpointConfigName": "designai-midas-config",
+    "ProductionVariants": [
+     {
+      "InitialInstanceCount": 1,
+      "InitialVariantWeight": 1,
+      "InstanceType": "ml.m5.xlarge",
+      "ModelName": "designai-midas",
+      "VariantName": "AllTraffic"
+     }
+    ]
+   },
+   "DependsOn": [
+    "MidasModel"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/MidasEndpointConfig"
+   }
+  },
+  "MidasEndpoint": {
+   "Type": "AWS::SageMaker::Endpoint",
+   "Properties": {
+    "EndpointConfigName": "designai-midas-config",
+    "EndpointName": "designai-midas-endpoint"
+   },
+   "DependsOn": [
+    "MidasEndpointConfig"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/MidasEndpoint"
+   }
+  },
+  "TripoSrModel": {
+   "Type": "AWS::SageMaker::Model",
+   "Properties": {
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "SageMakerExecutionRole7843F3B8",
+      "Arn"
+     ]
+    },
+    "ModelName": "designai-triposr",
+    "PrimaryContainer": {
+     "Environment": {
+      "SAGEMAKER_PROGRAM": "inference.py",
+      "SAGEMAKER_SUBMIT_DIRECTORY": "/opt/ml/model/code"
+     },
+     "Image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-inference:2.0.1-gpu-py310-cu118-ubuntu20.04-sagemaker",
+     "ModelDataUrl": "s3://designai-models-583925556452/triposr/model.tar.gz"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/TripoSrModel"
+   }
+  },
+  "TripoSrEndpointConfig": {
+   "Type": "AWS::SageMaker::EndpointConfig",
+   "Properties": {
+    "EndpointConfigName": "designai-triposr-config",
+    "ProductionVariants": [
+     {
+      "InitialInstanceCount": 1,
+      "InitialVariantWeight": 1,
+      "InstanceType": "ml.g4dn.xlarge",
+      "ModelName": "designai-triposr",
+      "VariantName": "AllTraffic"
+     }
+    ]
+   },
+   "DependsOn": [
+    "TripoSrModel"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/TripoSrEndpointConfig"
+   }
+  },
+  "TripoSrEndpoint": {
+   "Type": "AWS::SageMaker::Endpoint",
+   "Properties": {
+    "EndpointConfigName": "designai-triposr-config",
+    "EndpointName": "designai-triposr-endpoint"
+   },
+   "DependsOn": [
+    "TripoSrEndpointConfig"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/TripoSrEndpoint"
+   }
+  },
+  "SdxlModel": {
+   "Type": "AWS::SageMaker::Model",
+   "Properties": {
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "SageMakerExecutionRole7843F3B8",
+      "Arn"
+     ]
+    },
+    "ModelName": "designai-sdxl",
+    "PrimaryContainer": {
+     "Environment": {
+      "SAGEMAKER_PROGRAM": "inference.py",
+      "SAGEMAKER_SUBMIT_DIRECTORY": "/opt/ml/model/code"
+     },
+     "Image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/pytorch-inference:2.0.1-gpu-py310-cu118-ubuntu20.04-sagemaker",
+     "ModelDataUrl": "s3://designai-models-583925556452/sdxl/model.tar.gz"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/SdxlModel"
+   }
+  },
+  "SdxlEndpointConfig": {
+   "Type": "AWS::SageMaker::EndpointConfig",
+   "Properties": {
+    "EndpointConfigName": "designai-sdxl-config",
+    "ProductionVariants": [
+     {
+      "InitialInstanceCount": 1,
+      "InitialVariantWeight": 1,
+      "InstanceType": "ml.g4dn.xlarge",
+      "ModelName": "designai-sdxl",
+      "VariantName": "AllTraffic"
+     }
+    ]
+   },
+   "DependsOn": [
+    "SdxlModel"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/SdxlEndpointConfig"
+   }
+  },
+  "SdxlEndpoint": {
+   "Type": "AWS::SageMaker::Endpoint",
+   "Properties": {
+    "EndpointConfigName": "designai-sdxl-config",
+    "EndpointName": "designai-sdxl-endpoint"
+   },
+   "DependsOn": [
+    "SdxlEndpointConfig"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/SdxlEndpoint"
+   }
+  },
+  "ControlNetScalingRole2853C586": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "application-autoscaling.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "DependsOn": [
+    "ControlNetEndpoint"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/ControlNetScaling/Role/Resource"
+   }
+  },
+  "ControlNetScalingDDCCEB67": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 1,
+    "MinCapacity": 0,
+    "ResourceId": "endpoint/designai-controlnet-endpoint/variant/AllTraffic",
+    "RoleARN": {
+     "Fn::GetAtt": [
+      "ControlNetScalingRole2853C586",
+      "Arn"
+     ]
+    },
+    "ScalableDimension": "sagemaker:variant:DesiredInstanceCount",
+    "ServiceNamespace": "sagemaker"
+   },
+   "DependsOn": [
+    "ControlNetEndpoint"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/ControlNetScaling/Resource"
+   }
+  },
+  "ControlNetScalingInvocationsTracking964D03D3": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "designaiaiControlNetScalingInvocationsTrackingFE723B82",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "ControlNetScalingDDCCEB67"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "SageMakerVariantInvocationsPerInstance"
+     },
+     "ScaleInCooldown": 300,
+     "ScaleOutCooldown": 60,
+     "TargetValue": 1
+    }
+   },
+   "DependsOn": [
+    "ControlNetEndpoint"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/ControlNetScaling/InvocationsTracking/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12LQQ6CMBBFz+K+jMBCD0BcGg2wN0MpzUCZElokpundDSEa4+ol7/+XQ35KIT3g6hLZDomhBkLlUQ4CV/cIhCOE0holio43RuFQqxEHNUMoOr7aVpltvHA7WWJfWO5I/5oocJoMSfRkGRdvnURDrCFUEg02RtU4a+W35s/sqGeUA7Gu9u5uDcnX5/0VMW7qtvhp8VGwbRX07vjMc8jOkB16R5TMC3saFZQ739o3dc3+AAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-ai/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ControlNetEndpointName": {
+   "Value": "designai-controlnet-endpoint",
+   "Export": {
+    "Name": "designai-controlnet-endpoint"
+   }
+  },
+  "MidasEndpointName": {
+   "Value": "designai-midas-endpoint",
+   "Export": {
+    "Name": "designai-midas-endpoint"
+   }
+  },
+  "TripoSrEndpointName": {
+   "Value": "designai-triposr-endpoint",
+   "Export": {
+    "Name": "designai-triposr-endpoint"
+   }
+  },
+  "SdxlEndpointName": {
+   "Value": "designai-sdxl-endpoint",
+   "Export": {
+    "Name": "designai-sdxl-endpoint"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "_meta": { "dialect": "json-schema-draft-07", "id": "furniture-catalog" },
+  "title": "FurnitureCatalogItem",
+  "description": "Furniture catalog item indexed in OpenSearch (furniture-index).",
+  "type": "object",
+  "required": ["productId", "name", "category", "imageUrl", "dimensions"],
+  "properties": {
+    "productId": { "type": "string" },
+    "name": { "type": "string" },
+    "category": { "type": "string", "enum": ["sofa", "chair", "table", "bed", "storage", "lighting", "decor", "rug", "other"] },
+    "style": { "type": "string" },
+    "material": { "type": "string" },
+    "color": { "type": "string" },
+    "price": { "type": "number" },
+    "currency": { "type": "string", "default": "USD" },
+    "imageUrl": { "type": "string" },
+    "productUrl": { "type": "string" },
+    "glbUrl": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "required": ["width", "depth", "height"],
+      "properties": { "width": { "type": "number" }, "depth": { "type": "number" }, "height": { "type": "number" } }
+    },
+    "embedding": { "type": "array", "items": { "type": "number" }, "minItems": 1024, "maxItems": 1024 },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

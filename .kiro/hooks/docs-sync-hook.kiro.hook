@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Auto-Update API Docs",
+  "description": "When any .py file in backend/api/ is saved, read the FastAPI route definitions and update docs/api-reference.md to reflect any new endpoints, changed request schemas, or changed response schemas.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/designai/backend/api/**/*.py"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Read the FastAPI route definitions in the saved file. Update docs/api-reference.md to reflect any new endpoints, changed request schemas, or changed response schemas. Preserve the existing markdown structure. Add the current date next to any updated section."
+  }
+}

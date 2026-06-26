@@ -1,0 +1,1107 @@
+{
+ "Resources": {
+  "PipelineLambdaRoleC2DF3F1D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "designai-pipeline-lambda-role"
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/PipelineLambdaRole/Resource"
+   }
+  },
+  "PipelineLambdaRoleDefaultPolicyB1F01167": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttProjectsTableAA0A2089ArnA2260F04"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttProjectsTableAA0A2089ArnA2260F04"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttProjectsTableAA0A2089ArnA2260F04"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttProjectsTableAA0A2089ArnA2260F04"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttUploadsBucket5E5E9B64Arn8603C131"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttUploadsBucket5E5E9B64Arn8603C131"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttRendersBucket07FBD0F6Arn218382B7"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttRendersBucket07FBD0F6Arn218382B7"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttAssetsBucket5CB76180ArnBF60D959"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "designai-data:ExportsOutputFnGetAttAssetsBucket5CB76180ArnBF60D959"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:bedrock:*::foundation-model/*",
+        "arn:aws:bedrock:*:583925556452:inference-profile/*"
+       ]
+      },
+      {
+       "Action": "sagemaker:InvokeEndpoint",
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:sagemaker:us-east-1:583925556452:endpoint/designai-controlnet-endpoint",
+        "arn:aws:sagemaker:us-east-1:583925556452:endpoint/designai-midas-endpoint",
+        "arn:aws:sagemaker:us-east-1:583925556452:endpoint/designai-triposr-endpoint"
+       ]
+      },
+      {
+       "Action": "rekognition:DetectLabels",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "Roles": [
+     {
+      "Ref": "PipelineLambdaRoleC2DF3F1D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/PipelineLambdaRole/DefaultPolicy/Resource"
+   }
+  },
+  "ValidateLambdaBD26E4AE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "UPLOADS_BUCKET": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefUploadsBucket5E5E9B64F2F56CC2"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-validate",
+    "Handler": "validate.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/ValidateLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SegmentationLambdaBE255FAD": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "UPLOADS_BUCKET": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefUploadsBucket5E5E9B64F2F56CC2"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-segmentation",
+    "Handler": "segmentation.handler",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/SegmentationLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DepthLambdaE9DAF46A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "MIDAS_ENDPOINT": "designai-midas-endpoint",
+      "UPLOADS_BUCKET": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefUploadsBucket5E5E9B64F2F56CC2"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-depth",
+    "Handler": "depth.handler",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/DepthLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "PinterestLambda8F1A82E4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BEDROCK_MODEL_ID": "us.anthropic.claude-sonnet-4-6"
+     }
+    },
+    "FunctionName": "designai-pipeline-pinterest",
+    "Handler": "pinterest.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/PinterestLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "BedrockLambdaC6729693": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BEDROCK_MODEL_ID": "us.anthropic.claude-sonnet-4-6",
+      "PROJECTS_TABLE": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefProjectsTableAA0A2089BD3C4802"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-bedrock",
+    "Handler": "bedrock_reason.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/BedrockLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AssetRetrievalLambda42FD2258": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ASSETS_BUCKET": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefAssetsBucket5CB761808BF2E271"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-asset-retrieval",
+    "Handler": "asset_retrieval.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/AssetRetrievalLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SceneAssemblyLambdaBC99C8F7": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "PROJECTS_TABLE": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefProjectsTableAA0A2089BD3C4802"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-scene-assembly",
+    "Handler": "scene_assembly.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 60
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/SceneAssemblyLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "PersistLambdaE9B19C7F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "PROJECTS_TABLE": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefProjectsTableAA0A2089BD3C4802"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-persist",
+    "Handler": "persist.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/PersistLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "NotifyLambda68AEBD5B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-583925556452-us-east-1",
+     "S3Key": "10fccda02cb8f70f7b8c4c48a20163fc98e194e97448455eb4f4e233660427bd.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "PROJECTS_TABLE": {
+       "Fn::ImportValue": "designai-data:ExportsOutputRefProjectsTableAA0A2089BD3C4802"
+      }
+     }
+    },
+    "FunctionName": "designai-pipeline-notify",
+    "Handler": "notify.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "PipelineLambdaRoleC2DF3F1D",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "PipelineLambdaRoleDefaultPolicyB1F01167",
+    "PipelineLambdaRoleC2DF3F1D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/NotifyLambda/Resource",
+    "aws:asset:path": "C:\\Users\\admin\\Interior_designing\\designai\\lambda\\ai-analyzer",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DesignPipelineRoleD3F48C24": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "states.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/DesignPipeline/Role/Resource"
+   }
+  },
+  "DesignPipelineRoleDefaultPolicy84498B14": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ValidateLambdaBD26E4AE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ValidateLambdaBD26E4AE",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "PinterestLambda8F1A82E4",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "PinterestLambda8F1A82E4",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "BedrockLambdaC6729693",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "BedrockLambdaC6729693",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AssetRetrievalLambda42FD2258",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AssetRetrievalLambda42FD2258",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SceneAssemblyLambdaBC99C8F7",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SceneAssemblyLambdaBC99C8F7",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "PersistLambdaE9B19C7F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "PersistLambdaE9B19C7F",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "NotifyLambda68AEBD5B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "NotifyLambda68AEBD5B",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SegmentationLambdaBE255FAD",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SegmentationLambdaBE255FAD",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DepthLambdaE9DAF46A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DepthLambdaE9DAF46A",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords",
+        "xray:GetSamplingRules",
+        "xray:GetSamplingTargets"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DesignPipelineRoleDefaultPolicy84498B14",
+    "Roles": [
+     {
+      "Ref": "DesignPipelineRoleD3F48C24"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/DesignPipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "DesignPipeline6F95FBE7": {
+   "Type": "AWS::StepFunctions::StateMachine",
+   "Properties": {
+    "DefinitionString": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"StartAt\":\"Validate\",\"States\":{\"Validate\":{\"Next\":\"VisionParallel\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "ValidateLambdaBD26E4AE",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"VisionParallel\":{\"Type\":\"Parallel\",\"ResultPath\":\"$.visionResults\",\"Next\":\"PinterestAnalysis\",\"Branches\":[{\"StartAt\":\"Segmentation\",\"States\":{\"Segmentation\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "SegmentationLambdaBE255FAD",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}}}},{\"StartAt\":\"DepthEstimation\",\"States\":{\"DepthEstimation\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "DepthLambdaE9DAF46A",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}}}}]},\"PinterestAnalysis\":{\"Next\":\"BedrockReasoning\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "PinterestLambda8F1A82E4",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"BedrockReasoning\":{\"Next\":\"AssetRetrieval\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "BedrockLambdaC6729693",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"AssetRetrieval\":{\"Next\":\"AssetsFound?\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "AssetRetrievalLambda42FD2258",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"AssetsFound?\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.allAssetsFound\",\"BooleanEquals\":true,\"Next\":\"LoadCatalogAssets\"}],\"Default\":\"GeneratePlaceholders\"},\"GeneratePlaceholders\":{\"Type\":\"Pass\",\"Comment\":\"Load placeholder meshes; async generation via WebSocket swap\",\"Next\":\"SceneAssembly\"},\"SceneAssembly\":{\"Next\":\"Persist\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "SceneAssemblyLambdaBC99C8F7",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"LoadCatalogAssets\":{\"Type\":\"Pass\",\"Next\":\"SceneAssembly\"},\"Persist\":{\"Next\":\"Notify\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "PersistLambdaE9B19C7F",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"Notify\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "NotifyLambda68AEBD5B",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}}},\"TimeoutSeconds\":600}"
+      ]
+     ]
+    },
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "DesignPipelineRoleD3F48C24",
+      "Arn"
+     ]
+    },
+    "StateMachineName": "designai-design-pipeline",
+    "TracingConfiguration": {
+     "Enabled": true
+    }
+   },
+   "DependsOn": [
+    "DesignPipelineRoleDefaultPolicy84498B14",
+    "DesignPipelineRoleD3F48C24"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/DesignPipeline/Resource"
+   }
+  },
+  "DesignPipelineEventsRole9849BB8A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/DesignPipeline/EventsRole/Resource"
+   }
+  },
+  "DesignPipelineEventsRoleDefaultPolicyF485CEF7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "states:StartExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "DesignPipeline6F95FBE7"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DesignPipelineEventsRoleDefaultPolicyF485CEF7",
+    "Roles": [
+     {
+      "Ref": "DesignPipelineEventsRole9849BB8A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/DesignPipeline/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "UploadRule4905EF1C": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "source": [
+      "aws.s3"
+     ],
+     "detail-type": [
+      "Object Created"
+     ],
+     "detail": {
+      "bucket": {
+       "name": [
+        {
+         "Fn::ImportValue": "designai-data:ExportsOutputRefUploadsBucket5E5E9B64F2F56CC2"
+        }
+       ]
+      }
+     }
+    },
+    "Name": "designai-upload-trigger",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Ref": "DesignPipeline6F95FBE7"
+      },
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "DesignPipelineEventsRole9849BB8A",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/UploadRule/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12P0WrDMAxFv6Xvitam0D2vhcFgYyH5gKA6auvGsUslpxTjfx9JOxh7OvdKF3FVYrlZ4nJBNylM1xfO7jE1SqYHukmbLA2Y6uAYdgc/swrOmvtkHyqDo2HfEab36I3a4Kfdr84g65ZEWAXfJoCscRtNz7olYRDly+GZlVZJesHP+d6HH0P/L4Cpois5xw52p2ANQ0Ui0Cgpf5E5WT/3/Osz8MheBVMdn19ExznD3KZROlp/nMbfUS9RM/jQMZ7lZSxLXL3ianEWa4tr9GoHxvrBHyfBDYk3AQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "designai-pipeline/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "PipelineArn": {
+   "Value": {
+    "Ref": "DesignPipeline6F95FBE7"
+   },
+   "Export": {
+    "Name": "designai-pipeline-arn"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

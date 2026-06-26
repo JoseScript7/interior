@@ -1,0 +1,335 @@
+{
+  "/designai-ai": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetModel": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetModel"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:36:29)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetEndpointConfig": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetEndpointConfig"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:49:38)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:63:31)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/MidasModel": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MidasModel"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:70:24)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/MidasEndpointConfig": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MidasEndpointConfig"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:83:33)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/MidasEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MidasEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:97:26)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/TripoSrModel": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TripoSrModel"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:104:26)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/TripoSrEndpointConfig": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TripoSrEndpointConfig"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:117:35)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/TripoSrEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TripoSrEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:131:28)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/SdxlModel": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SdxlModel"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:138:23)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/SdxlEndpointConfig": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SdxlEndpointConfig"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:151:32)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/SdxlEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SdxlEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:165:25)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetEndpointName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetEndpointName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:189:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/MidasEndpointName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MidasEndpointName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:194:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/TripoSrEndpointName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TripoSrEndpointName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:199:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/SdxlEndpointName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SdxlEndpointName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:204:5)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/designai-ai/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/designai-ai/SageMakerExecutionRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SageMakerExecutionRole7843F3B8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:26:27)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetScaling/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetScalingDDCCEB67"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ScalableTarget2 in aws-cdk-lib...",
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:172:27)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:70:5)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetScaling/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetScalingRole2853C586"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ScalableTarget2 in aws-cdk-lib...",
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:172:27)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/designai-ai/ControlNetScaling/InvocationsTracking/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ControlNetScalingInvocationsTracking964D03D3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new AiStack (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\stacks\\ai-stack.ts:181:19)",
+        "<anonymous> (C:\\Users\\admin\\Interior_designing\\designai\\infrastructure\\bin\\app.ts:40:17)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Auto-Sync Tests",
+  "version": "1.0.0",
+  "description": "On save of a React component, create or update its test file with React Testing Library.",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["frontend/components/**/*.tsx", "frontend/components/**/*.ts"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check if a corresponding test file exists in __tests__/ for this component. If it does, update it to reflect any new props, functions, or exports. If not, create one with basic render tests using React Testing Library. Do not change existing passing test logic."
+  }
+}
