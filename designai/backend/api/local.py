@@ -156,3 +156,91 @@ async def save_scene(payload: dict):
     rec["status"] = "editing"
     _save(project_id, rec)
     return {"message": "saved", "project_id": project_id}
+
+
+# ---------------------------------------------------------------------------
+# Text -> 3D generation (AI bot in the suggestions tab)
+# Bedrock parses the natural-language spec into a structured furniture object.
+# HUNYUAN3D_ENDPOINT (a GPU SageMaker endpoint) is the drop-in for a real GLB;
+# until that exists we return a structured spec the client renders procedurally.
+# ---------------------------------------------------------------------------
+HUNYUAN3D_ENDPOINT = os.environ.get("HUNYUAN3D_ENDPOINT", "")
+
+GEN_SYSTEM_PROMPT = """You convert a natural-language furniture/object request into a strict JSON spec.
+Return ONLY JSON (no markdown):
+{
+  "name": "<concise product name>",
+  "category": "sofa|chair|table|bed|storage|lighting|rug|decor",
+  "style": "<style>",
+  "material": "<materials>",
+  "color": "#hex (dominant colour)",
+  "dimensions": { "width": <cm>, "depth": <cm>, "height": <cm> },
+  "description": "<one sentence>",
+  "estimatedPrice": <usd number>
+}
+Pick the closest category. Infer sensible real-world dimensions in centimetres."""
+
+
+def _sagemaker_hunyuan3d(prompt: str) -> str | None:
+    """Real text/image->3D via Hunyuan3D GPU endpoint, when available. Returns a GLB URL or None."""
+    if not HUNYUAN3D_ENDPOINT:
+        return None
+    try:
+        sm = boto3.client("sagemaker-runtime", region_name=REGION)
+        resp = sm.invoke_endpoint(
+            EndpointName=HUNYUAN3D_ENDPOINT,
+            ContentType="application/json",
+            Body=json.dumps({"prompt": prompt}),
+        )
+        out = json.loads(resp["Body"].read())
+        return out.get("glbUrl")
+    except Exception as e:  # noqa: BLE001
+        logger.warning(f"Hunyuan3D endpoint failed: {e}")
+        return None
+
+
+@router.post("/generate3d")
+async def generate3d(payload: dict):
+    """Natural-language spec -> structured 3D furniture object (added to catalog/scene)."""
+    prompt = (payload.get("prompt") or "").strip()
+    if not prompt:
+        raise HTTPException(status_code=400, detail="prompt required")
+
+    # 1) Bedrock structures the request
+    try:
+        resp = bedrock.converse(
+            modelId=BEDROCK_MODEL_ID,
+            system=[{"text": GEN_SYSTEM_PROMPT}],
+            messages=[{"role": "user", "content": [{"text": prompt}]}],
+            inferenceConfig={"maxTokens": 600, "temperature": 0.5},
+        )
+        text = resp["output"]["message"]["content"][0]["text"]
+        if "```json" in text:
+            text = text.split("```json")[1].split("```")[0]
+        elif "```" in text:
+            text = text.split("```")[1].split("```")[0]
+        spec = json.loads(text.strip())
+    except Exception as e:  # noqa: BLE001
+        logger.exception("generate3d Bedrock failed")
+        raise HTTPException(status_code=502, detail=f"AI spec generation failed: {str(e)[:160]}")
+
+    # 2) Real GLB via Hunyuan3D GPU endpoint if configured; else procedural placeholder
+    glb_url = _sagemaker_hunyuan3d(prompt)
+
+    item = {
+        "productId": "gen-" + uuid.uuid4().hex[:8],
+        "name": spec.get("name", "Generated Object"),
+        "category": spec.get("category", "decor"),
+        "style": spec.get("style", "custom"),
+        "material": spec.get("material", ""),
+        "color": spec.get("color", "#9aa0a6"),
+        "price": spec.get("estimatedPrice", 0),
+        "dimensions": spec.get("dimensions", {"width": 40, "depth": 40, "height": 40}),
+        "description": spec.get("description", ""),
+        "glbUrl": glb_url,                 # null until GPU endpoint exists
+        "generatedByHunyuan3D": bool(glb_url),
+        "source": "hunyuan3d" if glb_url else "procedural-placeholder",
+    }
+    logger.info("generate3d", extra={"category": item["category"], "source": item["source"]})
+    return {"item": item}
+

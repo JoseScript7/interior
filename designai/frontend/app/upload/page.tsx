@@ -75,7 +75,7 @@ export default function UploadPage() {
         <div
           {...getRootProps()}
           className={`mt-8 cursor-pointer rounded-2xl border-2 border-dashed p-10 text-center transition-all
-            ${isDragActive ? 'border-[rgb(var(--accent))] bg-[rgb(var(--accent-soft))]' : 'border-[rgb(var(--line))] bg-white hover:border-[rgb(var(--accent))]'}
+            ${isDragActive ? 'border-[rgb(var(--accent))] bg-[rgb(var(--accent-soft))]' : 'border-[rgb(var(--line))] bg-[rgb(var(--surface))] hover:border-[rgb(var(--accent))]'}
             ${uploading ? 'pointer-events-none opacity-60' : ''}`}
         >
           <input {...getInputProps()} />
@@ -131,7 +131,7 @@ export default function UploadPage() {
                 key={t}
                 onClick={() => setRoomType(roomType === t ? null : t)}
                 className={`rounded-full border px-4 py-2 text-sm transition-colors
-                  ${roomType === t ? 'border-[rgb(var(--accent))] bg-[rgb(var(--accent-soft))] text-[rgb(var(--accent-600))]' : 'border-[rgb(var(--line))] bg-white text-[rgb(var(--ink))] hover:border-[rgb(var(--accent))]'}`}
+                  ${roomType === t ? 'border-[rgb(var(--accent))] bg-[rgb(var(--accent-soft))] text-[rgb(var(--accent))]' : 'border-[rgb(var(--line))] bg-[rgb(var(--surface))] text-[rgb(var(--ink))] hover:border-[rgb(var(--accent))]'}`}
               >
                 {t}
               </button>

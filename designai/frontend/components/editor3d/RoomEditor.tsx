@@ -3,6 +3,7 @@
 import { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Grid, Environment } from '@react-three/drei';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import * as THREE from 'three';
 import { useSceneStore } from '@/store/scene-store';
 import { FurnitureObject } from './FurnitureObject';
@@ -16,6 +17,9 @@ export function RoomEditor({ view = '3d', zoom = 6 }: Props) {
   const scene = useSceneStore((s) => s.scene);
   const selectedItemId = useSceneStore((s) => s.selectedItemId);
   const selectItem = useSceneStore((s) => s.selectItem);
+  const draggingId = useSceneStore((s) => s.draggingId);
+  const setDraggingId = useSceneStore((s) => s.setDraggingId);
+  const updateItemPosition = useSceneStore((s) => s.updateItemPosition);
 
   if (!scene) {
     return (
@@ -25,10 +29,14 @@ export function RoomEditor({ view = '3d', zoom = 6 }: Props) {
     );
   }
 
+  const half = Math.max(scene.room.width, scene.room.length) * 3;
+
   return (
     <div className="h-full w-full">
       <Canvas shadows onPointerMissed={() => selectItem(null)}>
         <CameraRig view={view} zoom={zoom} />
+        <ControlsToggle />
+        <SceneExporter />
         <OrbitControls
           makeDefault
           enableRotate={view === '3d'}
@@ -43,15 +51,31 @@ export function RoomEditor({ view = '3d', zoom = 6 }: Props) {
 
         <Grid
           args={[scene.room.width * 2, scene.room.length * 2]}
-          cellSize={0.5} cellThickness={0.6} cellColor="#dfe5ec"
-          sectionSize={1} sectionThickness={1} sectionColor="#c2cad6"
+          cellSize={0.5} cellThickness={0.6} cellColor="#2a2f38"
+          sectionSize={1} sectionThickness={1} sectionColor="#3a4150"
           fadeDistance={26} infiniteGrid position={[0, 0, 0]}
         />
 
         {/* Floor */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, -0.005, 0]}>
           <planeGeometry args={[scene.room.width, scene.room.length]} />
-          <meshStandardMaterial color="#f7f4ef" />
+          <meshStandardMaterial color="#15171c" />
+        </mesh>
+
+        {/* Invisible drag-catcher: while dragging, follow the pointer on the floor */}
+        <mesh
+          rotation={[-Math.PI / 2, 0, 0]}
+          position={[0, 0.001, 0]}
+          visible={false}
+          onPointerMove={(e) => {
+            if (!draggingId) return;
+            e.stopPropagation();
+            updateItemPosition(draggingId, { x: e.point.x, y: 0, z: e.point.z });
+          }}
+          onPointerUp={() => setDraggingId(null)}
+        >
+          <planeGeometry args={[half * 2, half * 2]} />
+          <meshBasicMaterial transparent opacity={0} />
         </mesh>
 
         <RoomWalls room={scene.room} hide={view === '2d'} />
@@ -66,6 +90,43 @@ export function RoomEditor({ view = '3d', zoom = 6 }: Props) {
       </Canvas>
     </div>
   );
+}
+
+/** Disables OrbitControls while an item is being dragged. */
+function ControlsToggle() {
+  const draggingId = useSceneStore((s) => s.draggingId);
+  const controls = useThree((s) => s.controls) as { enabled: boolean } | null;
+  useEffect(() => {
+    if (controls) controls.enabled = !draggingId;
+  }, [draggingId, controls]);
+  return null;
+}
+
+/** Exports the current 3D scene to a downloadable .glb when requested. */
+function SceneExporter() {
+  const exportNonce = useSceneStore((s) => s.exportNonce);
+  const sceneRef = useThree((s) => s.scene);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) { first.current = false; return; } // skip initial mount
+    if (!sceneRef) return;
+    const exporter = new GLTFExporter();
+    exporter.parse(
+      sceneRef,
+      (result) => {
+        const blob = new Blob([result as ArrayBuffer], { type: 'model/gltf-binary' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `designai-room-${Date.now()}.glb`;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      (err) => console.error('GLB export failed', err),
+      { binary: true }
+    );
+  }, [exportNonce, sceneRef]);
+  return null;
 }
 
 function CameraRig({ view, zoom }: { view: '2d' | '3d'; zoom: number }) {

@@ -69,6 +69,8 @@ interface HistoryEntry {
 interface SceneState {
   scene: SceneDescriptor | null;
   selectedItemId: string | null;
+  draggingId: string | null;
+  exportNonce: number;
   undoStack: HistoryEntry[];
   redoStack: HistoryEntry[];
   isDirty: boolean;
@@ -83,7 +85,9 @@ interface SceneState {
   updateItemColor: (itemId: string, color: string) => void;
   swapItem: (itemId: string, replacement: FurnitureItem) => void;
   selectItem: (itemId: string | null) => void;
+  setDraggingId: (itemId: string | null) => void;
   setTheme: (theme: SceneTheme) => void;
+  requestExport: () => void;
   undo: () => void;
   redo: () => void;
   markClean: () => void;
@@ -102,6 +106,8 @@ export type AssistantAction =
 export const useSceneStore = create<SceneState>()((set, get) => ({
   scene: null,
   selectedItemId: null,
+  draggingId: null,
+  exportNonce: 0,
   undoStack: [],
   redoStack: [],
   isDirty: false,
@@ -190,6 +196,10 @@ export const useSceneStore = create<SceneState>()((set, get) => ({
   }),
 
   selectItem: (itemId) => set({ selectedItemId: itemId }),
+
+  setDraggingId: (itemId) => set({ draggingId: itemId }),
+
+  requestExport: () => set((s) => ({ exportNonce: s.exportNonce + 1 })),
 
   setTheme: (theme) => set((state) => {
     if (!state.scene) return state;

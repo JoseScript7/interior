@@ -2,59 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== DARK (default) ===== */
 :root {
-  --bg: 247 249 251;        /* cool light grey, HomeByMe-like */
-  --surface: 255 255 255;
-  --ink: 28 32 38;
-  --muted: 124 134 146;
-  --accent: 33 150 243;     /* clean blue */
-  --accent-600: 25 118 210;
-  --accent-soft: 227 242 253;
-  --highlight: 245 197 24;  /* the yellow toolbar line */
-  --line: 230 234 239;
+  --bg: 9 9 11;
+  --surface: 20 20 24;
+  --surface-2: 28 28 34;
+  --ink: 244 244 246;
+  --muted: 150 156 166;
+  --accent: 124 196 255;
+  --accent-600: 56 160 240;
+  --accent-soft: 30 48 66;
+  --accent-ink: 0 0 0;      /* text on accent buttons */
+  --line: 38 40 46;
 }
 
-* { border-color: rgb(var(--line)); }
+/* ===== LIGHT ===== */
+html.light {
+  --bg: 247 249 251;
+  --surface: 255 255 255;
+  --surface-2: 244 247 250;
+  --ink: 24 28 35;
+  --muted: 100 110 122;
+  --accent: 33 150 243;
+  --accent-600: 25 118 210;
+  --accent-soft: 227 242 253;
+  --accent-ink: 255 255 255;
+  --line: 228 232 238;
+}
+
+* { border-color: rgb(var(--line)); margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   color: rgb(var(--ink));
   background: rgb(var(--bg));
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @layer components {
   .container-app { @apply mx-auto w-full max-w-6xl px-6; }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[rgb(var(--accent))] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[rgb(var(--accent-600))] hover:shadow-md active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[rgb(var(--accent))] px-6 py-3 text-sm font-semibold text-[rgb(var(--accent-ink))] shadow-sm transition-all hover:brightness-110 hover:shadow-md active:scale-[0.98];
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[rgb(var(--line))] bg-white px-6 py-3 text-sm font-semibold text-[rgb(var(--ink))] transition-all hover:bg-slate-50 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[rgb(var(--line))] bg-[rgb(var(--surface))] px-6 py-3 text-sm font-semibold text-[rgb(var(--ink))] transition-all hover:bg-[rgb(var(--surface-2))] active:scale-[0.98];
   }
   .card {
-    @apply rounded-2xl border border-[rgb(var(--line))] bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04),0_12px_32px_-16px_rgba(16,24,40,0.12)];
+    @apply rounded-2xl border border-[rgb(var(--line))] bg-[rgb(var(--surface))] shadow-[0_1px_2px_rgba(0,0,0,0.18),0_12px_40px_-16px_rgba(0,0,0,0.35)];
   }
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.16em] text-[rgb(var(--accent))]; }
 
-  /* Editor chrome (Sweet Home / HomeByMe style) */
-  .editor-toolbar {
-    @apply flex items-center gap-1 rounded-xl border border-[rgb(var(--line))] bg-white/95 px-2 py-1.5 shadow-sm backdrop-blur;
-  }
-  .tool-btn {
-    @apply grid h-9 w-9 place-items-center rounded-lg text-[rgb(var(--muted))] transition-colors hover:bg-[rgb(var(--accent-soft))] hover:text-[rgb(var(--accent-600))];
-  }
-  .seg {
-    @apply inline-flex items-center rounded-full border border-[rgb(var(--line))] bg-white p-1 shadow-sm;
-  }
-  .seg-item {
-    @apply rounded-full px-4 py-1.5 text-sm font-medium text-[rgb(var(--muted))] transition-colors;
-  }
-  .seg-item-active {
-    @apply bg-[rgb(var(--accent))] text-white shadow;
-  }
+  .editor-toolbar { @apply flex items-center gap-1 rounded-xl border border-[rgb(var(--line))] bg-[rgb(var(--surface))]/95 px-2 py-1.5 shadow-sm backdrop-blur; }
+  .tool-btn { @apply grid h-9 w-9 place-items-center rounded-lg text-[rgb(var(--muted))] transition-colors hover:bg-[rgb(var(--accent-soft))] hover:text-[rgb(var(--accent))]; }
+  .seg { @apply inline-flex items-center rounded-full border border-[rgb(var(--line))] bg-[rgb(var(--surface))] p-1 shadow-sm; }
+  .seg-item { @apply rounded-full px-4 py-1.5 text-sm font-medium text-[rgb(var(--muted))] transition-colors; }
+  .seg-item-active { @apply bg-[rgb(var(--accent))] text-[rgb(var(--accent-ink))] shadow; }
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background-color: rgba(124,134,146,0.35); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background-color: rgba(150,156,166,0.35); border-radius: 4px; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

@@ -18,6 +18,7 @@ interface Props {
  */
 export function FurnitureObject({ item, isSelected, onSelect }: Props) {
   const [hovered, setHovered] = useState(false);
+  const setDraggingId = useSceneStore((s) => s.setDraggingId);
   useCursor(hovered);
 
   const d = item.dimensions || { width: 1, depth: 1, height: 1 };
@@ -35,6 +36,8 @@ export function FurnitureObject({ item, isSelected, onSelect }: Props) {
       position={[item.position.x, item.position.y, item.position.z]}
       rotation={[item.rotation.x, item.rotation.y, item.rotation.z]}
       onClick={(e) => { e.stopPropagation(); onSelect(); }}
+      onPointerDown={(e) => { e.stopPropagation(); onSelect(); setDraggingId(item.id); }}
+      onPointerUp={(e) => { e.stopPropagation(); setDraggingId(null); }}
       onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
       onPointerOut={() => setHovered(false)}
     >

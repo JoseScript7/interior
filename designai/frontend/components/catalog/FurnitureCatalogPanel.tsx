@@ -53,7 +53,7 @@ export function FurnitureCatalogPanel() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search…"
-          className="w-full rounded-lg border border-[rgb(var(--line))] px-3 py-2 text-sm outline-none focus:border-[rgb(var(--accent))]"
+          className="w-full rounded-lg border border-[rgb(var(--line))] bg-[rgb(var(--surface-2))] px-3 py-2 text-sm text-[rgb(var(--ink))] outline-none placeholder:text-[rgb(var(--muted))] focus:border-[rgb(var(--accent))]"
         />
         <div className="mt-2 flex flex-wrap gap-1">
           {CATEGORIES.map((c) => (
@@ -61,7 +61,7 @@ export function FurnitureCatalogPanel() {
               key={c}
               onClick={() => setCategory(c)}
               className={`rounded-full px-2.5 py-1 text-xs capitalize transition-colors ${
-                category === c ? 'bg-[rgb(var(--accent))] text-white' : 'bg-slate-100 text-slate-600 hover:bg-[rgb(var(--accent-soft))]'
+                category === c ? 'bg-[rgb(var(--accent))] text-black' : 'bg-[rgb(var(--surface-2))] text-[rgb(var(--muted))] hover:text-[rgb(var(--ink))]'
               }`}
             >
               {c}
@@ -76,16 +76,22 @@ export function FurnitureCatalogPanel() {
             <button
               key={item.productId}
               onClick={() => handleAdd(item)}
-              className="group rounded-xl border border-[rgb(var(--line))] bg-white p-2 text-left transition-all hover:-translate-y-0.5 hover:border-[rgb(var(--accent))] hover:shadow-md"
+              className="group overflow-hidden rounded-xl border border-[rgb(var(--line))] bg-[rgb(var(--surface-2))] text-left transition-all hover:-translate-y-0.5 hover:border-[rgb(var(--accent))] hover:shadow-lg"
               title={`Add ${item.name}`}
             >
-              <div className="mb-2 flex h-16 items-center justify-center rounded-lg" style={{ backgroundColor: item.color + '33' }}>
-                <span className="h-8 w-8 rounded-md shadow-sm" style={{ backgroundColor: item.color }} />
+              <div className="relative h-24 w-full overflow-hidden bg-[rgb(var(--surface))]">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+                <span className="absolute right-1.5 top-1.5 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">+ Add</span>
               </div>
-              <p className="truncate text-xs font-medium">{item.name}</p>
-              <div className="mt-0.5 flex items-center justify-between">
-                <span className="text-[11px] text-[rgb(var(--muted))]">${item.price}</span>
-                <span className="text-[11px] font-medium text-[rgb(var(--accent-600))] opacity-0 transition-opacity group-hover:opacity-100">+ Add</span>
+              <div className="p-2">
+                <p className="truncate text-xs font-medium text-[rgb(var(--ink))]">{item.name}</p>
+                <p className="mt-0.5 text-[11px] text-[rgb(var(--muted))]">${item.price} · {item.style}</p>
               </div>
             </button>
           ))}

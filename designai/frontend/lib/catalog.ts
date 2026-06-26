@@ -13,21 +13,24 @@ export interface CatalogItem {
   price: number;
   dimensions: { width: number; depth: number; height: number }; // cm
   productUrl: string;
+  image: string;       // real product photo (so you see what you're adding)
 }
 
+const IMG = (id: string) => `https://images.unsplash.com/${id}?w=320&h=240&q=60&auto=format&fit=crop`;
+
 export const CATALOG: CatalogItem[] = [
-  { productId: 'sofa-001', name: 'Scandinavian Oak Sofa', category: 'sofa', style: 'scandinavian', material: 'oak, linen', color: '#d8c3a5', price: 899, dimensions: { width: 200, depth: 85, height: 80 }, productUrl: 'https://amazon.com/s?k=scandinavian+oak+sofa' },
-  { productId: 'sofa-002', name: 'Mid-Century Velvet Sofa', category: 'sofa', style: 'mid-century', material: 'velvet, walnut', color: '#2f6b54', price: 1199, dimensions: { width: 210, depth: 90, height: 82 }, productUrl: 'https://amazon.com/s?k=mid+century+velvet+sofa' },
-  { productId: 'chair-001', name: 'Japandi Accent Chair', category: 'chair', style: 'japandi', material: 'rattan, teak', color: '#c9a66b', price: 499, dimensions: { width: 65, depth: 70, height: 85 }, productUrl: 'https://amazon.com/s?k=japandi+accent+chair' },
-  { productId: 'chair-002', name: 'Industrial Dining Chair', category: 'chair', style: 'industrial', material: 'steel', color: '#3a3a3a', price: 149, dimensions: { width: 45, depth: 50, height: 90 }, productUrl: 'https://amazon.com/s?k=industrial+metal+dining+chair' },
-  { productId: 'table-001', name: 'Walnut Coffee Table', category: 'table', style: 'minimalist', material: 'walnut', color: '#5c4033', price: 349, dimensions: { width: 120, depth: 60, height: 45 }, productUrl: 'https://amazon.com/s?k=walnut+coffee+table' },
-  { productId: 'table-002', name: 'Round Marble Dining Table', category: 'table', style: 'modern', material: 'marble, brass', color: '#ece9e4', price: 1299, dimensions: { width: 120, depth: 120, height: 75 }, productUrl: 'https://amazon.com/s?k=round+marble+dining+table' },
-  { productId: 'bed-001', name: 'Upholstered Platform Bed', category: 'bed', style: 'contemporary', material: 'linen', color: '#9aa0a6', price: 799, dimensions: { width: 160, depth: 210, height: 100 }, productUrl: 'https://amazon.com/s?k=upholstered+platform+bed' },
-  { productId: 'storage-001', name: 'Oak Bookshelf', category: 'storage', style: 'scandinavian', material: 'oak', color: '#c9a66b', price: 429, dimensions: { width: 90, depth: 30, height: 180 }, productUrl: 'https://amazon.com/s?k=oak+bookshelf' },
-  { productId: 'light-001', name: 'Brass Pendant Light', category: 'lighting', style: 'modern', material: 'brass', color: '#c9a227', price: 199, dimensions: { width: 30, depth: 30, height: 40 }, productUrl: 'https://amazon.com/s?k=brass+pendant+light' },
-  { productId: 'light-002', name: 'Arc Floor Lamp', category: 'lighting', style: 'mid-century', material: 'steel, marble', color: '#2b2b2b', price: 259, dimensions: { width: 150, depth: 40, height: 200 }, productUrl: 'https://amazon.com/s?k=arc+floor+lamp' },
-  { productId: 'rug-001', name: 'Moroccan Wool Rug', category: 'rug', style: 'bohemian', material: 'wool', color: '#c97b5a', price: 279, dimensions: { width: 200, depth: 150, height: 2 }, productUrl: 'https://amazon.com/s?k=moroccan+wool+rug' },
-  { productId: 'decor-001', name: 'Ceramic Vase Set', category: 'decor', style: 'minimalist', material: 'ceramic', color: '#eceae5', price: 89, dimensions: { width: 20, depth: 20, height: 35 }, productUrl: 'https://amazon.com/s?k=ceramic+vase+set' },
+  { productId: 'sofa-001', name: 'Scandinavian Oak Sofa', category: 'sofa', style: 'scandinavian', material: 'oak, linen', color: '#d8c3a5', price: 899, dimensions: { width: 200, depth: 85, height: 80 }, productUrl: 'https://amazon.com/s?k=scandinavian+oak+sofa', image: IMG('photo-1555041469-a586c61ea9bc') },
+  { productId: 'sofa-002', name: 'Mid-Century Velvet Sofa', category: 'sofa', style: 'mid-century', material: 'velvet, walnut', color: '#2f6b54', price: 1199, dimensions: { width: 210, depth: 90, height: 82 }, productUrl: 'https://amazon.com/s?k=mid+century+velvet+sofa', image: IMG('photo-1493663284031-b7e3aefcae8e') },
+  { productId: 'chair-001', name: 'Japandi Accent Chair', category: 'chair', style: 'japandi', material: 'rattan, teak', color: '#c9a66b', price: 499, dimensions: { width: 65, depth: 70, height: 85 }, productUrl: 'https://amazon.com/s?k=japandi+accent+chair', image: IMG('photo-1567538096630-e0c55bd6374c') },
+  { productId: 'chair-002', name: 'Industrial Dining Chair', category: 'chair', style: 'industrial', material: 'steel', color: '#3a3a3a', price: 149, dimensions: { width: 45, depth: 50, height: 90 }, productUrl: 'https://amazon.com/s?k=industrial+metal+dining+chair', image: IMG('photo-1503602642458-232111445657') },
+  { productId: 'table-001', name: 'Walnut Coffee Table', category: 'table', style: 'minimalist', material: 'walnut', color: '#5c4033', price: 349, dimensions: { width: 120, depth: 60, height: 45 }, productUrl: 'https://amazon.com/s?k=walnut+coffee+table', image: IMG('photo-1532372320572-cda25653a26d') },
+  { productId: 'table-002', name: 'Round Marble Dining Table', category: 'table', style: 'modern', material: 'marble, brass', color: '#ece9e4', price: 1299, dimensions: { width: 120, depth: 120, height: 75 }, productUrl: 'https://amazon.com/s?k=round+marble+dining+table', image: IMG('photo-1577140917170-285929fb55b7') },
+  { productId: 'bed-001', name: 'Upholstered Platform Bed', category: 'bed', style: 'contemporary', material: 'linen', color: '#9aa0a6', price: 799, dimensions: { width: 160, depth: 210, height: 100 }, productUrl: 'https://amazon.com/s?k=upholstered+platform+bed', image: IMG('photo-1505693416388-ac5ce068fe85') },
+  { productId: 'storage-001', name: 'Oak Bookshelf', category: 'storage', style: 'scandinavian', material: 'oak', color: '#c9a66b', price: 429, dimensions: { width: 90, depth: 30, height: 180 }, productUrl: 'https://amazon.com/s?k=oak+bookshelf', image: IMG('photo-1594620302200-9a762244a156') },
+  { productId: 'light-001', name: 'Brass Pendant Light', category: 'lighting', style: 'modern', material: 'brass', color: '#c9a227', price: 199, dimensions: { width: 30, depth: 30, height: 40 }, productUrl: 'https://amazon.com/s?k=brass+pendant+light', image: IMG('photo-1513506003901-1e6a229e2d15') },
+  { productId: 'light-002', name: 'Arc Floor Lamp', category: 'lighting', style: 'mid-century', material: 'steel, marble', color: '#2b2b2b', price: 259, dimensions: { width: 150, depth: 40, height: 200 }, productUrl: 'https://amazon.com/s?k=arc+floor+lamp', image: IMG('photo-1507473885765-e6ed057f782c') },
+  { productId: 'rug-001', name: 'Moroccan Wool Rug', category: 'rug', style: 'bohemian', material: 'wool', color: '#c97b5a', price: 279, dimensions: { width: 200, depth: 150, height: 2 }, productUrl: 'https://amazon.com/s?k=moroccan+wool+rug', image: IMG('photo-1600166898405-da9535204843') },
+  { productId: 'decor-001', name: 'Ceramic Vase Set', category: 'decor', style: 'minimalist', material: 'ceramic', color: '#eceae5', price: 89, dimensions: { width: 20, depth: 20, height: 35 }, productUrl: 'https://amazon.com/s?k=ceramic+vase+set', image: IMG('photo-1578500494198-246f612d3b3d') },
 ];
 
 export const CATEGORIES = ['all', 'sofa', 'chair', 'table', 'bed', 'storage', 'lighting', 'rug', 'decor'] as const;

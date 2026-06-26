@@ -1,101 +1,120 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { ArrowRight, Menu, X, ScanSearch, Boxes, Smartphone } from 'lucide-react';
+
+const NAV = [
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/dashboard' },
+  { label: '3D Editor', href: '/project/demo' },
+  { label: 'Upload', href: '/upload' },
+];
 
 export default function HomePage() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div>
-      {/* Hero */}
-      <section className="container-app pt-16 pb-12 md:pt-24">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <div>
-            <p className="eyebrow mb-4">AI Interior Digital Twin</p>
-            <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">
-              Design your space,<br />
-              <span className="text-[rgb(var(--accent))]">visualized in 3D.</span>
-            </h1>
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-[rgb(var(--muted))]">
-              Upload a room photo. Our AI reads the space, recommends designs, and lets you
-              place real furniture in an interactive 3D editor — then preview it in AR.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href="/upload" className="btn-primary">Start designing — it's free</Link>
-              <Link href="/project/demo" className="btn-ghost">Try the 3D editor</Link>
-            </div>
-            <div className="mt-8 flex items-center gap-6 text-sm text-[rgb(var(--muted))]">
-              <span className="flex items-center gap-2"><Dot /> Bedrock-powered analysis</span>
-              <span className="flex items-center gap-2"><Dot /> Real 3D furniture</span>
-              <span className="flex items-center gap-2"><Dot /> AR preview</span>
+    <div className="font-geist">
+      {/* ===== HERO ===== */}
+      <section className="relative h-screen w-full overflow-hidden bg-black">
+        {/* Background video */}
+        <video
+          autoPlay muted loop playsInline
+          className="absolute h-full w-full object-cover"
+          style={{ objectPosition: '70% center' }}
+        >
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_204221_5339e40b-e73d-4ab0-9c65-79c18c66fd50.mp4"
+            type="video/mp4"
+          />
+        </video>
+        {/* readability gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
+
+        {/* Navbar */}
+        <nav className="relative z-30 flex items-center justify-between px-6 py-5 md:px-12 lg:px-16">
+          <div className="flex items-center gap-8">
+            <span className="text-lg font-semibold tracking-tight text-white sm:text-xl">Design<span className="text-[#7cc4ff]">AI</span></span>
+            <div className="hidden items-center gap-7 md:flex">
+              {NAV.map((n) => (
+                <Link key={n.label} href={n.href} className="text-sm text-white/80 transition-colors hover:text-white">{n.label}</Link>
+              ))}
             </div>
           </div>
+          <Link href="/upload" className="hidden rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition-transform hover:scale-105 md:inline-block">Start designing</Link>
 
-          {/* Editor mock card */}
-          <div className="card overflow-hidden">
-            <div className="flex items-center gap-2 border-b border-[rgb(var(--line))] px-4 py-3">
-              <span className="h-3 w-3 rounded-full bg-red-400" />
-              <span className="h-3 w-3 rounded-full bg-amber-400" />
-              <span className="h-3 w-3 rounded-full bg-green-400" />
-              <span className="ml-3 text-sm font-medium text-[rgb(var(--muted))]">Living Room · Ground floor</span>
-            </div>
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-slate-50 to-slate-100">
-              <div className="absolute inset-0 grid place-items-center">
-                <div className="text-center">
-                  <div className="mx-auto mb-3 grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-lg">
-                    <span className="text-3xl">🛋️</span>
-                  </div>
-                  <p className="text-sm text-[rgb(var(--muted))]">Interactive 3D room preview</p>
-                </div>
-              </div>
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 seg">
-                <span className="seg-item">2D</span>
-                <span className="seg-item seg-item-active">3D</span>
-                <span className="seg-item">AR</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          {/* mobile toggle */}
+          <button onClick={() => setOpen((v) => !v)} className="relative z-50 grid h-10 w-10 place-items-center active:scale-90 md:hidden" aria-label="Menu">
+            <Menu size={24} className={`absolute text-white transition-all duration-300 ${open ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'}`} />
+            <X size={24} className={`absolute text-white transition-all duration-300 ${open ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'}`} />
+          </button>
+        </nav>
 
-      {/* How it works */}
-      <section id="how" className="border-y border-[rgb(var(--line))] bg-white py-16">
-        <div className="container-app">
-          <p className="eyebrow mb-3">How it works</p>
-          <h2 className="mb-10 text-3xl font-semibold tracking-tight">From photo to purchasable design in minutes</h2>
-          <div className="grid gap-6 md:grid-cols-4">
-            {STEPS.map((s, i) => (
-              <div key={s.title} className="card p-6">
-                <div className="mb-4 grid h-10 w-10 place-items-center rounded-xl bg-[rgb(var(--accent-soft))] text-sm font-bold text-[rgb(var(--accent-600))]">{i + 1}</div>
-                <h3 className="font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[rgb(var(--muted))]">{s.body}</p>
-              </div>
+        {/* Mobile menu */}
+        <div className={`absolute inset-x-0 top-0 z-20 overflow-hidden bg-black/95 backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'h-screen opacity-100' : 'pointer-events-none h-0 opacity-0'}`}>
+          <div className={`flex h-full flex-col justify-center gap-6 px-8 transition-all delay-100 duration-500 ${open ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+            {NAV.map((n) => (
+              <Link key={n.label} href={n.href} onClick={() => setOpen(false)} className="text-3xl font-medium text-white/90 hover:text-white">{n.label}</Link>
             ))}
+            <Link href="/upload" onClick={() => setOpen(false)} className="mt-4 w-fit rounded-full bg-white px-8 py-3.5 text-base font-medium text-black hover:scale-105">Start designing</Link>
+          </div>
+        </div>
+
+        {/* Hero content */}
+        <div className="relative z-10 flex h-[calc(100vh-80px)] flex-col justify-between px-6 pb-10 pt-12 sm:pb-12 sm:pt-16 md:px-12 md:pb-16 md:pt-20 lg:px-16">
+          <div className="max-w-3xl">
+            <p className="mb-4 text-xs text-white/90 sm:mb-6 sm:text-sm animate-[fadeSlideUp_0.8s_ease_0.2s_both]">AI Interior Digital Twin</p>
+            <h1 className="text-3xl font-medium leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl animate-[fadeSlideUp_0.8s_ease_0.4s_both]">
+              Shape your space,<br />redesign with AI,<br />one room at a time.
+            </h1>
+          </div>
+          <div>
+            <p className="mb-5 max-w-sm text-sm leading-relaxed text-white/60 sm:mb-6 sm:max-w-lg sm:text-base md:text-lg animate-[fadeSlideUp_0.8s_ease_0.7s_both]">
+              Upload a room photo. Our AI reads the space, recommends designs, and lets you place real furniture in an interactive 3D editor.
+            </p>
+            <div className="flex flex-wrap gap-3 animate-[fadeSlideUp_0.8s_ease_0.9s_both]">
+              <Link href="/upload" className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-black transition-transform hover:scale-105 sm:px-6 sm:py-3">
+                Upload a room <ArrowRight size={16} />
+              </Link>
+              <Link href="/project/demo" className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10 sm:px-6 sm:py-3">
+                Open 3D editor
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="py-16">
+      {/* ===== FEATURES ===== */}
+      <section className="bg-[rgb(var(--bg))] py-20">
         <div className="container-app">
+          <p className="eyebrow mb-3">What it does</p>
+          <h2 className="mb-12 max-w-2xl text-3xl font-semibold tracking-tight text-[rgb(var(--ink))] md:text-4xl">An end-to-end pipeline from photo to purchasable design</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {FEATURES.map((f) => (
               <div key={f.title} className="card p-7">
-                <div className="mb-4 text-3xl">{f.icon}</div>
+                <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-[rgb(var(--accent-soft))] text-[rgb(var(--accent-600))]">
+                  <f.icon size={22} />
+                </div>
                 <h3 className="text-lg font-semibold">{f.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[rgb(var(--muted))]">{f.body}</p>
+                <Link href={f.href} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[rgb(var(--accent-600))] hover:gap-2 transition-all">{f.cta} <ArrowRight size={14} /></Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="container-app pb-24">
-        <div className="card flex flex-col items-center gap-5 bg-gradient-to-br from-[rgb(var(--accent))] to-[rgb(var(--accent-600))] p-12 text-center text-white">
-          <h2 className="max-w-xl text-3xl font-semibold tracking-tight">Ready to redesign your room?</h2>
-          <p className="max-w-md text-white/85">Start with a photo or jump straight into the 3D editor.</p>
-          <div className="flex gap-3">
-            <Link href="/upload" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[rgb(var(--accent-600))] transition hover:bg-white/90">Upload a room</Link>
-            <Link href="/project/demo" className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">Open 3D editor</Link>
+      {/* ===== CTA ===== */}
+      <section className="bg-[rgb(var(--bg))] pb-24">
+        <div className="container-app">
+          <div className="card flex flex-col items-center gap-5 bg-gradient-to-br from-[rgb(var(--accent-600))] to-[rgb(var(--accent))] p-12 text-center text-black">
+            <h2 className="max-w-xl text-3xl font-semibold tracking-tight">Ready to redesign your room?</h2>
+            <p className="max-w-md text-black/75">Upload a photo for real AI recommendations, or jump straight into the 3D editor.</p>
+            <div className="flex gap-3">
+              <Link href="/upload" className="rounded-full bg-black px-6 py-3 text-sm font-semibold text-white hover:bg-black/85">Upload a room</Link>
+              <Link href="/project/demo" className="rounded-full border border-black/30 px-6 py-3 text-sm font-semibold text-black hover:bg-black/10">Open 3D editor</Link>
+            </div>
           </div>
         </div>
       </section>
@@ -103,19 +122,8 @@ export default function HomePage() {
   );
 }
 
-function Dot() {
-  return <span className="h-1.5 w-1.5 rounded-full bg-[rgb(var(--accent))]" />;
-}
-
-const STEPS = [
-  { title: 'Upload your room', body: 'Drop a photo of any room. Optionally add an inspiration image.' },
-  { title: 'AI understands it', body: 'Bedrock reads dimensions, style, lighting, and existing furniture.' },
-  { title: 'Get 3 designs', body: 'Personalized themes with palettes, materials, and real products.' },
-  { title: 'Edit in 3D & AR', body: 'Drag, rotate, recolor furniture — then preview it in your room.' },
-];
-
 const FEATURES = [
-  { icon: '🏠', title: 'AI Room Analysis', body: 'Multimodal Bedrock analysis turns a single photo into a structured understanding of your space.' },
-  { icon: '🪑', title: '3D Room Editor', body: 'A real-time Three.js editor — place, scale, rotate, and recolor furniture with collision-aware snapping.' },
-  { icon: '📱', title: 'AR Preview', body: 'Point your phone at the floor and see furniture appear at true real-world scale in your room.' },
+  { icon: ScanSearch, title: 'AI Room Analysis', body: 'Multimodal Bedrock (Claude) analysis turns a single room photo into a structured understanding — dimensions, style, lighting, palette, and 3 design directions.', cta: 'Upload a room', href: '/upload' },
+  { icon: Boxes, title: '3D Room Editor', body: 'A real-time Three.js editor — place, scale, rotate and recolor furniture from a live catalog, with 2D/3D views and selectable, modeled pieces.', cta: 'Open the editor', href: '/project/demo' },
+  { icon: Smartphone, title: 'AR Preview', body: 'Point your phone at the floor and preview furniture at true real-world scale in your actual room.', cta: 'Try it', href: '/project/demo' },
 ];
