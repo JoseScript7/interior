@@ -40,6 +40,34 @@ export interface RoomGeometry {
   roomType?: string;
 }
 
+/** A floor-plan wall segment, drawn corner-to-corner in the 2D plan (metres). */
+export interface Wall {
+  id: string;
+  start: { x: number; z: number };
+  end: { x: number; z: number };
+  height: number;
+  thickness: number;
+}
+
+/**
+ * Taste profile produced by Qwen3-VL from the user's inspiration
+ * (Pinterest images / uploads / text). Drives theme + furniture layout.
+ */
+export interface TasteProfile {
+  styleKeywords: string[];
+  primaryStyle: string;
+  colorPalette: string[];
+  materials: string[];
+  mood: string;
+  keyFurniturePieces: string[];
+  lighting: string;
+  avoid?: string[];
+  summary: string;
+  confidence: number;
+}
+
+export type EditorMode = 'select' | 'draw-wall';
+
 export interface SceneTheme {
   name: string;
   colorPalette: string[];
@@ -52,6 +80,7 @@ export interface SceneDescriptor {
   userId: string;
   room: RoomGeometry;
   items: FurnitureItem[];
+  walls?: Wall[];
   theme?: SceneTheme;
   metadata: {
     createdAt: string;
@@ -71,6 +100,9 @@ interface SceneState {
   selectedItemId: string | null;
   draggingId: string | null;
   exportNonce: number;
+  editorMode: EditorMode;
+  draftWallStart: { x: number; z: number } | null;
+  tasteProfile: TasteProfile | null;
   undoStack: HistoryEntry[];
   redoStack: HistoryEntry[];
   isDirty: boolean;
@@ -92,6 +124,16 @@ interface SceneState {
   redo: () => void;
   markClean: () => void;
 
+  // Floor-plan / wall drawing (blueprint3d-style, native r3f)
+  setEditorMode: (mode: EditorMode) => void;
+  setDraftWallStart: (point: { x: number; z: number } | null) => void;
+  addWall: (start: { x: number; z: number }, end: { x: number; z: number }) => void;
+  removeWall: (wallId: string) => void;
+  clearWalls: () => void;
+
+  // Inspiration-driven taste profile (Qwen3-VL)
+  setTasteProfile: (profile: TasteProfile | null) => void;
+
   // Assistant action dispatch (Q6 decision)
   dispatchAssistantAction: (action: AssistantAction) => void;
 }
@@ -108,11 +150,14 @@ export const useSceneStore = create<SceneState>()((set, get) => ({
   selectedItemId: null,
   draggingId: null,
   exportNonce: 0,
+  editorMode: 'select',
+  draftWallStart: null,
+  tasteProfile: null,
   undoStack: [],
   redoStack: [],
   isDirty: false,
 
-  loadScene: (scene) => set({ scene, isDirty: false, undoStack: [], redoStack: [] }),
+  loadScene: (scene) => set({ scene: { walls: [], ...scene }, isDirty: false, undoStack: [], redoStack: [] }),
 
   addItem: (item) => set((state) => {
     if (!state.scene) return state;
@@ -233,6 +278,58 @@ export const useSceneStore = create<SceneState>()((set, get) => ({
   }),
 
   markClean: () => set({ isDirty: false }),
+
+  // ---- Floor-plan / wall drawing ----
+  setEditorMode: (mode) => set({ editorMode: mode, draftWallStart: null }),
+
+  setDraftWallStart: (point) => set({ draftWallStart: point }),
+
+  addWall: (start, end) => set((state) => {
+    if (!state.scene) return state;
+    // Ignore zero-length walls (a click without a drag).
+    const dist = Math.hypot(end.x - start.x, end.z - start.z);
+    if (dist < 0.05) return { draftWallStart: null };
+    const wall: Wall = {
+      id: `wall-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      start,
+      end,
+      height: state.scene.room.height,
+      thickness: 0.1,
+    };
+    return {
+      scene: { ...state.scene, walls: [...(state.scene.walls ?? []), wall] },
+      draftWallStart: null,
+      isDirty: true,
+    };
+  }),
+
+  removeWall: (wallId) => set((state) => {
+    if (!state.scene) return state;
+    return {
+      scene: { ...state.scene, walls: (state.scene.walls ?? []).filter((w) => w.id !== wallId) },
+      isDirty: true,
+    };
+  }),
+
+  clearWalls: () => set((state) => {
+    if (!state.scene) return state;
+    return { scene: { ...state.scene, walls: [] }, isDirty: true };
+  }),
+
+  // ---- Inspiration taste profile ----
+  setTasteProfile: (profile) => set((state) => {
+    // Mirror taste palette/lighting into the scene theme so the editor reflects it.
+    if (profile && state.scene) {
+      const theme: SceneTheme = {
+        name: profile.primaryStyle,
+        colorPalette: profile.colorPalette,
+        materials: profile.materials,
+        lighting: profile.lighting,
+      };
+      return { tasteProfile: profile, scene: { ...state.scene, theme }, isDirty: true };
+    }
+    return { tasteProfile: profile };
+  }),
 
   // Q6: Structured assistant action commands
   dispatchAssistantAction: (action) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useRef, useEffect } from 'react';
+import { Suspense, useRef, useEffect, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Grid, Environment } from '@react-three/drei';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
@@ -17,9 +17,6 @@ export function RoomEditor({ view = '3d', zoom = 6 }: Props) {
   const scene = useSceneStore((s) => s.scene);
   const selectedItemId = useSceneStore((s) => s.selectedItemId);
   const selectItem = useSceneStore((s) => s.selectItem);
-  const draggingId = useSceneStore((s) => s.draggingId);
-  const setDraggingId = useSceneStore((s) => s.setDraggingId);
-  const updateItemPosition = useSceneStore((s) => s.updateItemPosition);
 
   if (!scene) {
     return (
@@ -62,23 +59,14 @@ export function RoomEditor({ view = '3d', zoom = 6 }: Props) {
           <meshStandardMaterial color="#15171c" />
         </mesh>
 
-        {/* Invisible drag-catcher: while dragging, follow the pointer on the floor */}
-        <mesh
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, 0.001, 0]}
-          visible={false}
-          onPointerMove={(e) => {
-            if (!draggingId) return;
-            e.stopPropagation();
-            updateItemPosition(draggingId, { x: e.point.x, y: 0, z: e.point.z });
-          }}
-          onPointerUp={() => setDraggingId(null)}
-        >
-          <planeGeometry args={[half * 2, half * 2]} />
-          <meshBasicMaterial transparent opacity={0} />
-        </mesh>
+        {/* Interaction plane: furniture dragging (select mode) + wall drawing (draw-wall mode) */}
+        <InteractionPlane half={half} />
 
-        <RoomWalls room={scene.room} hide={view === '2d'} />
+        {/* Default bounding walls (hidden in 2D and once the user draws their own) */}
+        <RoomWalls room={scene.room} hide={view === '2d' || (scene.walls?.length ?? 0) > 0} />
+
+        {/* User-drawn floor-plan walls */}
+        <DrawnWalls />
 
         <Suspense fallback={null}>
           {scene.items.map((item) => (
@@ -158,5 +146,130 @@ function RoomWalls({ room, hide }: { room: { width: number; length: number; heig
         <meshStandardMaterial color={c} />
       </mesh>
     </group>
+  );
+}
+
+/** Snap a floor coordinate to a 0.25 m grid for tidy wall corners. */
+function snap(v: number, step = 0.25): number {
+  return Math.round(v / step) * step;
+}
+
+/**
+ * Single floor-level plane that captures pointer events.
+ * - select mode: drags the active furniture item across the floor
+ * - draw-wall mode: click to set a start corner, click again to commit a wall
+ */
+function InteractionPlane({ half }: { half: number }) {
+  const editorMode = useSceneStore((s) => s.editorMode);
+  const draggingId = useSceneStore((s) => s.draggingId);
+  const setDraggingId = useSceneStore((s) => s.setDraggingId);
+  const updateItemPosition = useSceneStore((s) => s.updateItemPosition);
+  const draftWallStart = useSceneStore((s) => s.draftWallStart);
+  const setDraftWallStart = useSceneStore((s) => s.setDraftWallStart);
+  const addWall = useSceneStore((s) => s.addWall);
+  const [hover, setHover] = useState<{ x: number; z: number } | null>(null);
+
+  const drawing = editorMode === 'draw-wall';
+
+  return (
+    <>
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, 0.001, 0]}
+        visible={false}
+        onPointerDown={(e) => {
+          if (!drawing) return;
+          e.stopPropagation();
+          const p = { x: snap(e.point.x), z: snap(e.point.z) };
+          if (!draftWallStart) {
+            setDraftWallStart(p);
+          } else {
+            addWall(draftWallStart, p);
+          }
+        }}
+        onPointerMove={(e) => {
+          if (drawing) {
+            setHover({ x: snap(e.point.x), z: snap(e.point.z) });
+            return;
+          }
+          if (!draggingId) return;
+          e.stopPropagation();
+          updateItemPosition(draggingId, { x: e.point.x, y: 0, z: e.point.z });
+        }}
+        onPointerUp={() => setDraggingId(null)}
+      >
+        <planeGeometry args={[half * 2, half * 2]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
+
+      {/* Live preview of the wall being drawn */}
+      {drawing && draftWallStart && hover && (
+        <WallMesh start={draftWallStart} end={hover} height={2.6} thickness={0.1} preview />
+      )}
+    </>
+  );
+}
+
+/** Renders all committed floor-plan walls; clicking one in draw mode deletes it. */
+function DrawnWalls() {
+  const walls = useSceneStore((s) => s.scene?.walls ?? []);
+  const editorMode = useSceneStore((s) => s.editorMode);
+  const removeWall = useSceneStore((s) => s.removeWall);
+
+  return (
+    <group>
+      {walls.map((w) => (
+        <WallMesh
+          key={w.id}
+          start={w.start}
+          end={w.end}
+          height={w.height}
+          thickness={w.thickness}
+          onClick={editorMode === 'draw-wall' ? () => removeWall(w.id) : undefined}
+        />
+      ))}
+    </group>
+  );
+}
+
+/** A single wall drawn between two floor points, extruded to `height`. */
+function WallMesh({
+  start,
+  end,
+  height,
+  thickness,
+  preview,
+  onClick,
+}: {
+  start: { x: number; z: number };
+  end: { x: number; z: number };
+  height: number;
+  thickness: number;
+  preview?: boolean;
+  onClick?: () => void;
+}) {
+  const dx = end.x - start.x;
+  const dz = end.z - start.z;
+  const length = Math.hypot(dx, dz);
+  if (length < 0.01) return null;
+  const cx = (start.x + end.x) / 2;
+  const cz = (start.z + end.z) / 2;
+  const angle = Math.atan2(dz, dx);
+
+  return (
+    <mesh
+      position={[cx, height / 2, cz]}
+      rotation={[0, -angle, 0]}
+      castShadow
+      receiveShadow
+      onClick={onClick ? (e) => { e.stopPropagation(); onClick(); } : undefined}
+    >
+      <boxGeometry args={[length, height, thickness]} />
+      <meshStandardMaterial
+        color={preview ? '#2196f3' : '#ffffff'}
+        transparent={preview}
+        opacity={preview ? 0.5 : 1}
+      />
+    </mesh>
   );
 }
