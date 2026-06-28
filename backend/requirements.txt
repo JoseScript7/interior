@@ -9,3 +9,4 @@ opensearch-py==2.6.0
 jsonschema==4.23.0
 requests==2.32.3
 websocket-client==1.8.0
+aws-xray-sdk==2.14.0
